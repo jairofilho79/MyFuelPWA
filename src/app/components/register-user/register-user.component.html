@@ -1,0 +1,62 @@
+<div class="container">
+  <h1 class="title">Cadastre-se</h1>
+  <form class="form" [formGroup]="registerUserForm">
+    <mat-form-field>
+      <input
+        id="userName"
+        matInput
+        type="text"
+        placeholder="Usuário"
+        formControlName="username"
+      >
+      <mat-hint *ngIf="registerUserForm.get('username').invalid">Insira seu nome de usuário.</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        id="userEmail"
+        matInput
+        type="email"
+        placeholder="E-mail"
+        formControlName="email"
+      >
+      <mat-hint *ngIf="registerUserForm.get('email').invalid">Insira seu endereço de e-mail.</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        id="userPassword"
+        matInput
+        [type]="passwordVisible ? 'text' : 'password'"
+        placeholder="Senha"
+        formControlName="password"
+      >
+      <mat-icon class="pointer" matSuffix (click)="passwordVisible = !passwordVisible">{{!passwordVisible ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-hint *ngIf="registerUserForm.get('password').invalid">Insira sua senha.</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        id="userConfirmPassword"
+        matInput
+        [type]="confirmPasswordVisible ? 'text' : 'password'"
+        placeholder="Confirmar senha"
+        formControlName="confirmPassword"
+      >
+      <mat-icon class="pointer" matSuffix (click)="confirmPasswordVisible = !confirmPasswordVisible">{{!confirmPasswordVisible ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-hint
+        *ngIf="registerUserForm.get('confirmPassword').invalid || registerUserForm.errors?.confirmPassword"
+      >
+        Repita sua senha.
+      </mat-hint>
+    </mat-form-field>
+    <button
+      id="submitButton"
+      mat-raised-button
+      color="primary"
+      class="primary-button"
+      type="button"
+      (click)="register()"
+      [disabled]="registerUserForm.invalid"
+    >
+      Registrar-se
+    </button>
+  </form>
+</div>
