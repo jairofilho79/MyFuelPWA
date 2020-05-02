@@ -16,6 +16,7 @@ export class RegisterUserComponent implements OnInit {
   registerUserForm: FormGroup;
   passwordVisible: boolean;
   confirmPasswordVisible: boolean;
+  isLoading: boolean;
   registerUser: RegisterUser;
 
   constructor(
@@ -26,6 +27,7 @@ export class RegisterUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isLoading = false;
     this.passwordVisible = false;
     this.registerUserForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -39,9 +41,11 @@ export class RegisterUserComponent implements OnInit {
   }
 
   register() {
+    this.isLoading = true;
     this.registerUser = this.registerUserForm.getRawValue();
     delete this.registerUser.confirmPassword;
     this.registerUserService.registerUser(this.registerUser).subscribe(() => {
+      this.isLoading = false;
       this.toastr.success('Usuário cadastrado com sucesso', 'Sucesso').onHidden.subscribe(() => {
         this.router.navigate(['login']);
       })

@@ -1,4 +1,4 @@
-const server = 'http://localhost:4200/';
+const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
 
 const { getText, exists } = require('./utils');
 
@@ -6,7 +6,8 @@ jest.setTimeout(10000);
 
 describe('Main flow of user registration', () => {
   beforeAll(async () => {
-    await page.goto(server+'registerUser');
+    console.log(server);
+    await page.goto(server+'/registerUser');
   });
   it('should find the page title', async () => {
     const headerTitleSelector = '.title';
@@ -44,14 +45,10 @@ describe('Main flow of user registration', () => {
   })
   it('should show a success message and redirect to login', async () => {
     const title = '.toast-title';
-    const message = '.toast-message';
     await page.waitForSelector(title);
     const titleText = await getText(page, title);
     expect(titleText).toContain('Sucesso');
-    await page.waitForSelector(message);
-    const messageText = await getText(page, message);
-    expect(messageText).toContain('Usuário cadastrado com sucesso');
-    await page.click(message);
+    await page.click(title);
     await page.waitForNavigation();
     const url = page.url();
     expect(url).toContain('login');
