@@ -14,6 +14,6 @@ export class RegisterUserService {
   ) { }
 
   registerUser(user: RegisterUser) {
-    return this.http.post(environment.server + '/user', user);
+    return this.http.post(environment.server + '/users', user);
   }
 }

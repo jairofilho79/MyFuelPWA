@@ -7,10 +7,34 @@ const { db } = require('../config.js');
 router.post('', async (req, res) => {
   const params = req.body;
   try {
-    if(!params.username) return res.status(404).end("username not found");
-    if(!params.email) return res.status(404).end("email not found");
-    if(!params.password) return res.status(404).end("password not found");
-    res.status(204).end();
+    if(!params.username) return res.status(400).end(JSON.stringify({
+      "titulo": "Um ou mais campos inválidos",
+      "campos": [
+        {
+          "nome": "nome",
+          "mensagem": "deve ser um nome válido"
+        }
+      ]
+    }));
+    if(!params.email) return res.status(400).end(JSON.stringify({
+      "titulo": "Um ou mais campos inválidos",
+      "campos": [
+        {
+          "nome": "email",
+          "mensagem": "deve ser um e-mail válido"
+        }
+      ]
+    }));
+    if(!params.password) return res.status(400).end(JSON.stringify({
+      "titulo": "Um ou mais campos inválidos",
+      "campos": [
+        {
+          "nome": "senha",
+          "mensagem": "deve ser uma senha válida"
+        }
+      ]
+    }));
+    res.status(200).end();
   } catch (e) {
     console.error(e);
   }

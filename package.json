@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"ng serve\" \"npm run server\"",
+    "start": "node server.js",
     "build": "ng build",
     "test": "concurrently \"npm start\" \"npm run jest\"",
     "jest": "\"cd e2e/src/ && jest\"",
     "jest:hlf": "\"cd e2e/src/ && cross-env HEADLESS=false jest\"",
     "lint": "ng lint",
-    "server": "concurrently \"json-server -w src/mockserver/db.json\" \"nodemon ./src/mockserver/index.js\""
+    "serve": "concurrently \"ng serve\" \"npm run server\"",
+    "server": "concurrently \"json-server -w src/mockserver/db.json\" \"nodemon ./src/mockserver/index.js\"",
+    "postinstall": "ng build --aot --prod"
   },
   "private": true,
   "dependencies": {
@@ -60,5 +62,9 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3"
+  },
+  "engines": {
+    "node": "12.13.0",
+    "npm": "6.9.0"
   }
 }

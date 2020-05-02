@@ -2,7 +2,7 @@ const server = 'http://localhost:4200/';
 
 const { getText, exists } = require('./utils');
 
-jest.setTimeout(30000);
+jest.setTimeout(10000);
 
 describe('Main flow of user registration', () => {
   beforeAll(async () => {
