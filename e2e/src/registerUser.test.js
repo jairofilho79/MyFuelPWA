@@ -2,11 +2,10 @@ const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}
 
 const { getText, exists } = require('./utils');
 
-jest.setTimeout(10000);
+jest.setTimeout(20000);
 
 describe('Main flow of user registration', () => {
   beforeAll(async () => {
-    console.log(server);
     await page.goto(server+'/registerUser');
   });
   it('should find the page title', async () => {

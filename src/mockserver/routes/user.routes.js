@@ -7,7 +7,7 @@ const { db } = require('../config.js');
 router.post('', async (req, res) => {
   const params = req.body;
   try {
-    if(!params.username) return res.status(400).end(JSON.stringify({
+    if(!params.name) return res.status(400).end(JSON.stringify({
       "titulo": "Um ou mais campos inválidos",
       "campos": [
         {
