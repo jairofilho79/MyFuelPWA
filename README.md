@@ -1,27 +1,24 @@
 # MyFuelPWA
+MyFuel is a project to manage the vehicles fuel costs. Basically, the user can register your vehicles, manager your supplies, get the supplies history and view intels about the vehicles.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
+This project use Angular 8.3.23 and PWA technology. It's connected with this API and is intended to let the user access the app by the web and mobile devices.
+
+For quality, this project uses Jest-Puppeteer for behavior tests automatizations, a mocked server in Node.js and Express.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Describe the scripts here **
 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The PWA is only available when the project is built.
+For serve the PWA version. Go to Dist folder and run 'npx serve' or 'npx server' (verify this)
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Describe the scripts here ** [Protractor](http://www.protractortest.org/). (change for jest and puppeteer)
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## suggestions, tips, compliments and complaints
+Find me at Linkedin: https://www.linkedin.com/in/jairofilho79/
