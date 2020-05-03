@@ -13,6 +13,7 @@
     "serve": "concurrently \"ng serve\" \"npm run server\"",
     "server": "concurrently \"json-server -w src/mockserver/db.json\" \"nodemon ./src/mockserver/index.js\"",
     "postinstall": "ng build --aot --prod",
+    "serverProd": "npm run postinstall && npm start",
     "prePR": "npm run postinstall && concurrently \"npm start\" \"npm run test\""
   },
   "private": true,

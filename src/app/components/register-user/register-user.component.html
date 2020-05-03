@@ -30,7 +30,7 @@
         formControlName="password"
       >
       <mat-icon class="pointer" matSuffix (click)="passwordVisible = !passwordVisible">{{!passwordVisible ? 'visibility_off' : 'visibility'}}</mat-icon>
-      <mat-hint *ngIf="registerUserForm.get('password').invalid">Insira sua senha.</mat-hint>
+      <mat-hint *ngIf="registerUserForm.get('password').invalid">Insira sua senha com 6 a 12 caracteres.</mat-hint>
     </mat-form-field>
     <mat-form-field>
       <input

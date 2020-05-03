@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RegisterUserComponent } from "./components/register-user/register-user.component";
 import { LoginComponent } from "./components/login/login.component";
+import { NotFoundComponent } from "./components/not-found/not-found.component";
 
 
 const routes: Routes = [
@@ -20,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    component: NotFoundComponent
   }
 ];
 
