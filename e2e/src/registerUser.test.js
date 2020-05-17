@@ -98,4 +98,9 @@ describe('Invalid Data flow of user registration', () => {
     await page.type(userConfirmPasswordInputSelector, "passwordpassword");
     await disabledSubmitButton();
   });
+  it('should return a business rule error', async () => {
+    await fillForm("user", "user@mail.com", "password", "password");
+    await submitForm();
+    await verifyToastMessage("Erro");
+  });
 })

@@ -5,3 +5,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .pointer {
   cursor: pointer;
 }
+.container {
+  margin: 5vh 5vw;
+}

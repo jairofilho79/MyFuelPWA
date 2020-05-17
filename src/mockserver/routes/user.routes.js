@@ -25,6 +25,9 @@ router.post('', async (req, res) => {
         }
       ]
     }));
+    if(!params.email.includes("user@")) return res.status(400).end(JSON.stringify({
+      "titulo": "Email já cadastrado"
+    }));
     if(!params.password) return res.status(400).end(JSON.stringify({
       "titulo": "Um ou mais campos inválidos",
       "campos": [

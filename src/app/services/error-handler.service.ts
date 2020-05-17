@@ -16,10 +16,14 @@ export class ErrorHandlerService {
     console.log(err);
     console.log(err.error);
     if(err.error) {
-      for(let campo of err.error.campos) {
-        this.toast.error(`O campo ${campo.nome} ${campo.mensagem}`, err.error.titulo);
+      if(!err.error.campos) {
+        this.toast.error(`${err.error.titulo}`, "Erro");
+        return;
       }
-      return
+      for(let campo of err.error.campos) {
+        this.toast.error(`${err.error.titulo}: O campo ${campo.nome} ${campo.mensagem}`, "Erro");
+      }
+      return;
     }
     if(Object.getPrototypeOf(err).constructor.name === "ProgressEvent" || err.status === 401) {
       this.toast

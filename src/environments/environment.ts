@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  server: 'http://localhost:3333/api',
+  // server: 'http://localhost:3333/api',
+  server: "http://devs-myfuel-api.herokuapp.com/api",
   db: 'http://localhost:3000'
 };
 
