@@ -1,4 +1,5 @@
-const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
+// const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
+const server = `http://localhost:4200`;
 
 const { getText, exists, getUniqueString } = require('./utils');
 
