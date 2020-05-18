@@ -2,19 +2,21 @@
 
   <mf-header></mf-header>
 
-  <mat-tab-group style="height: 100%">
+  <mat-tab-group [dynamicHeight]='true'>
 
-    <mat-tab>
+    <mat-tab style="height: 100%" >
 
       <ng-template mat-tab-label>
         <mat-icon >directions_car</mat-icon>
       </ng-template>
 
-      <mat-spinner
-        [diameter]="36"
-        *ngIf="isLoadingVehicles"
-      >
-      </mat-spinner>
+      <div style="width: 100%; margin-top: 5vh; display: flex; justify-content: center; align-items: center; ">
+        <mat-spinner
+          [diameter]="108"
+          *ngIf="isLoadingVehicles"
+        >
+        </mat-spinner>
+      </div>
 
       <ng-template [ngIf]="!isLoadingVehicles">
         <mf-general-list
@@ -38,7 +40,7 @@
 
     </mat-tab>
 
-    <mat-tab>
+    <mat-tab style="height: 100%">
 
       <ng-template mat-tab-label>
         <mat-icon >local_gas_station</mat-icon>

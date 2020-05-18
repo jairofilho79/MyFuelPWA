@@ -1,7 +1,7 @@
 // const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
 const server = `http://localhost:4200`;
 
-const { getText, exists, getUniqueString } = require('./utils');
+const { getText, getUniqueString, clearForm } = require('./utils');
 
 jest.setTimeout(20000);
 
@@ -19,17 +19,15 @@ async function formsInput() {
   const userConfirmPasswordInputSelector = '#userConfirmPassword';
   const form = '.form';
   await page.waitForSelector(form, { visible: true });
-  expect(exists(page, userNameInputSelector)).resolves.toBeTruthy();
-  expect(exists(page, userEmailInputSelector)).resolves.toBeTruthy();
-  expect(exists(page, userPasswordInputSelector)).resolves.toBeTruthy();
-  expect(exists(page, userConfirmPasswordInputSelector)).resolves.toBeTruthy();
+  await page.waitForSelector(userNameInputSelector, { visible: true });
+  await page.waitForSelector(userEmailInputSelector, { visible: true });
+  await page.waitForSelector(userPasswordInputSelector, { visible: true });
+  await page.waitForSelector(userConfirmPasswordInputSelector, { visible: true });
 }
 
 async function disabledSubmitButton() {
   const disabledSubmitButtonSelector = "#submitButton[disabled]";
   await page.waitForSelector(disabledSubmitButtonSelector);
-  const isDisabled = await exists(page, disabledSubmitButtonSelector)
-  expect(isDisabled).toBeTruthy();
 }
 
 async function fillForm(name, email, password, confirmPassword) {
@@ -78,6 +76,9 @@ describe('Main flow of user registration', () => {
 describe('Invalid Data flow of user registration', () => {
   beforeAll(async () => {
     await page.goto(server+'/registerUser');
+  });
+  beforeEach(async () => {
+    await clearForm(page, '.form');
   });
   it('should have a form with 4 inputs', formsInput);
   it('should fill partially the form and have a disabled submit button', async () => {
