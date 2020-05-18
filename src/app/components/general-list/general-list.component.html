@@ -1,0 +1,32 @@
+<mat-list role="list">
+    <mat-list-item
+        role="listitem"
+        *ngFor="let item of data; let i=index"
+        [style.background-color]="item.color || defaultColor"
+        [style.color]="(item.color || defaultColor) | darkOrLightFontColor"
+        (click)="$event.stopPropagation(); clickEvent(i)"
+        class="pointer"
+    >
+        <div
+            style="display: flex; justify-content: space-between; width: 100%; align-items: center"
+            >
+            <div>{{item.text1}}</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 53%">
+              <div>{{item.text2}}</div>
+              <div>
+                  <button
+                      style="background-color: transparent; border: 0;"
+                      [style.color]="(item.color || defaultColor) | darkOrLightFontColor"
+                      mat-list-item
+                      *ngIf="onRemoveEnable"
+                      (click)="$event.stopPropagation(); removeEvent(i)"
+                      class="pointer"
+                  >
+                      <mat-icon >delete_forever</mat-icon>
+                  </button>
+              </div>
+            </div>
+
+        </div>
+    </mat-list-item>
+  </mat-list>

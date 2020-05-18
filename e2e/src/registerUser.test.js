@@ -1,4 +1,5 @@
-const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
+// const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
+const server = `http://localhost:4200`;
 
 const { getText, exists, getUniqueString } = require('./utils');
 
@@ -97,5 +98,10 @@ describe('Invalid Data flow of user registration', () => {
     await page.type(userPasswordInputSelector, "passwordpassword");
     await page.type(userConfirmPasswordInputSelector, "passwordpassword");
     await disabledSubmitButton();
+  });
+  it('should return a business rule error', async () => {
+    await fillForm("user", "user@mail.com", "password", "password");
+    await submitForm();
+    await verifyToastMessage("Erro");
   });
 })

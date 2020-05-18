@@ -7,6 +7,8 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 
 import { MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,16 +17,27 @@ import { environment } from '../environments/environment';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { MonthNamePipe } from './pipes/month-name.pipe';
+import { HeaderComponent } from './components/header/header.component';
+import { GeneralListComponent } from './components/general-list/general-list.component';
+import { DarkOrLightFontColorPipe } from './pipes/dark-or-light-font-color.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterUserComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    HomeComponent,
+    MonthNamePipe,
+    HeaderComponent,
+    GeneralListComponent,
+    DarkOrLightFontColorPipe
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     RouterModule,
@@ -34,6 +47,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
+    MatListModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     ToastrModule.forRoot({
