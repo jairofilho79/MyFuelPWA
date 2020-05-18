@@ -53,7 +53,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.vehicleService.getVehicles().subscribe(vehicles => {
-      console.log(vehicles);
       this.isLoadingVehicles = false;
       this.vehicles = vehicles;
       this.treatedVehicles = this.treatVehiclesData(vehicles);
@@ -73,7 +72,6 @@ export class HomeComponent implements OnInit {
         }
       )
     }
-    console.log(newData);
     return newData;
   }
 
