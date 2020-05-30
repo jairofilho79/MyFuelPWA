@@ -6,9 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 
-import { MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatListModule} from '@angular/material/list';
+import { MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatTabsModule, MatTableModule, MatPaginatorModule } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +20,7 @@ import { MonthNamePipe } from './pipes/month-name.pipe';
 import { HeaderComponent } from './components/header/header.component';
 import { GeneralListComponent } from './components/general-list/general-list.component';
 import { DarkOrLightFontColorPipe } from './pipes/dark-or-light-font-color.pipe';
+import { ListNameFormatPipe } from './pipes/list-name-format.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,8 @@ import { DarkOrLightFontColorPipe } from './pipes/dark-or-light-font-color.pipe'
     MonthNamePipe,
     HeaderComponent,
     GeneralListComponent,
-    DarkOrLightFontColorPipe
+    DarkOrLightFontColorPipe,
+    ListNameFormatPipe
   ],
   imports: [
     BrowserModule,
@@ -48,7 +48,8 @@ import { DarkOrLightFontColorPipe } from './pipes/dark-or-light-font-color.pipe'
     MatButtonModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     ToastrModule.forRoot({

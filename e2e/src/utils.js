@@ -1,8 +1,8 @@
-module.exports.getText = async (page, selector) => {
-  return await page.$eval(selector, el => el.textContent);
-}
+// module.exports.getText = async (page, selector) => {
+//   return await page.$eval(selector, el => el.textContent);
+// }
 
-module.exports.getElement = async (page, selector) => {
+module.exports.getText = async (page, selector) => {
   // return await page.$eval(selector, el => el !== null);
   return await page.$eval(selector, el => {
     try {
@@ -13,7 +13,7 @@ module.exports.getElement = async (page, selector) => {
   });
 }
 
-module.exports.getElements = async (page, selector) => {
+module.exports.getTexts = async (page, selector) => {
   // return await page.$eval(selector, el => el !== null);
   return await page.$$eval(selector, list => {
     return list.map(data => data.textContent)

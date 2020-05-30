@@ -1,4 +1,6 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { Observable, Subscription } from "rxjs";
 
 @Component({
   selector: 'mf-general-list',
@@ -7,10 +9,18 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 })
 export class GeneralListComponent implements OnInit {
   @Input() data;
-  @Input() onRemoveEnable;
+  @Input() listName;
+  @Input() displayedColumns: string[];
+  @Input() onDataChange: Observable<any>
+  private eventsSubscription: Subscription;
+
   @Output() onRemoveEvent = new EventEmitter();
   @Output() onClickEvent = new EventEmitter();
+
   defaultColor = '#F0FF78';
+  dataSource;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   /**
    * data = [
    *  {
@@ -24,6 +34,17 @@ export class GeneralListComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.dataSource = new MatTableDataSource(this.data);
+    this.dataSource.paginator = this.paginator;
+    if(this.onDataChange) {
+      this.eventsSubscription = this.onDataChange.subscribe((data) => {
+        this.dataSource.data = data;
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
   }
 
   removeEvent(index) {
