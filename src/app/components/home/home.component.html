@@ -21,12 +21,13 @@
       <ng-template [ngIf]="!isLoadingVehicles">
         <mf-general-list
           [data]="treatedVehicles"
-          [onRemoveEnable]="true"
+          listName='vehicle'
+          [displayedColumns]="['column1', 'column2', 'remove']"
           (onRemoveEvent)="removeVehicle($event)"
           (onClickEvent)="getVehicleDetail($event)"
         ></mf-general-list>
         <div
-          style="display: flex; flex-direction: column; align-items: center; margin-top: 2vh;"
+          style="display: flex; flex-direction: column; align-items: center;"
         >
           <button
             mat-button
@@ -45,11 +46,33 @@
       <ng-template mat-tab-label>
         <mat-icon >local_gas_station</mat-icon>
       </ng-template>
+      <!-- TODO: make a component of this -->
+      <div style="width: 100%; margin-top: 5vh; display: flex; justify-content: center; align-items: center; ">
+        <mat-spinner
+          [diameter]="108"
+          *ngIf="isLoadingSupplies"
+        >
+        </mat-spinner>
+      </div>
 
-      <mf-general-list
-        [data]="treatedSupplies"
-        [onRemoveEnable]="false"
-      ></mf-general-list>
+      <ng-template [ngIf]="!isLoadingSupplies">
+        <mf-general-list
+          [onDataChange]="suppliesUpdate.asObservable()"
+          [data]="treatedSupplies"
+          listName='supply'
+          [displayedColumns]="['columns1', 'columns2']"
+        ></mf-general-list>
+
+        <button
+            mat-button
+            style="color: white; width: 100%; background-color: #436399; height: 40px;"
+            (click)="loadMoreSupplies()"
+            *ngIf="isLoadMoreSuppliesAvailable"
+            id="loadMoreSupplies"
+          >
+            <mat-icon>cloud_download</mat-icon>
+          </button>
+      </ng-template>
 
     </mat-tab>
 

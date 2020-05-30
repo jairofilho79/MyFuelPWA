@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleService } from "src/app/services/vehicle.service";
 import { Vehicle } from "src/app/models/Vehicle";
 import { ToastrService } from "ngx-toastr";
+import { SupplyService } from "src/app/services/supply.service";
+import brlFormatter from 'src/app/helper/currencyBRLFormatter';
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: 'mf-home',
@@ -10,45 +13,19 @@ import { ToastrService } from "ngx-toastr";
 })
 export class HomeComponent implements OnInit {
   vehicles: Vehicle[];
-  supplies = [
-    {
-      "valor": 35,
-      "veiculo": {
-        "placa": "KKK-2020",
-        "cor": "#FFFFFF"
-      }
-    },
-    {
-      "valor": 50,
-      "veiculo": {
-        "placa": "JWC-2618",
-        "cor": "#000000"
-      }
-    },{
-      "valor": 60,
-      "veiculo": {
-        "placa": "JSF-2023",
-        "cor": "#003366"
-      }
-    },{
-      "valor": 100,
-      "veiculo": {
-        "placa": "JWC-2618",
-        "cor": "#000000"
-      }
-    }
-  ];
   isLoadingVehicles: boolean = false;
   isLoadingSupplies: boolean = false;
   treatedVehicles;
-  treatedSupplies;
+  treatedSupplies = [];
+  currentPage = 0;
+  suppliesUpdate = new BehaviorSubject<any>(undefined);
+  isLoadMoreSuppliesAvailable = true;
 
   constructor(
     private vehicleService: VehicleService,
+    private supplyService: SupplyService,
     private toastr: ToastrService
-  ) {
-    this.treatedSupplies = this.treatSuppliesData(this.supplies);
-  }
+  ) {}
 
   ngOnInit() {
 
@@ -57,8 +34,16 @@ export class HomeComponent implements OnInit {
       this.vehicles = vehicles;
       this.treatedVehicles = this.treatVehiclesData(vehicles);
     });
+    this.supplyService.getSupplies().subscribe(supplies => {
+      this.isLoadingSupplies = false;
+      this.treatedSupplies = this.treatSuppliesData(supplies);
+      this.suppliesUpdate.next(this.treatedSupplies);
+    })
+    this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
     this.isLoadingVehicles = true;
+    this.isLoadingSupplies = true;
     this.vehicleService.getVehicleByUserId(2);
+    this.supplyService.getSuppliesByUserId(2);
   }
 
   treatVehiclesData(vehicles) {
@@ -77,17 +62,11 @@ export class HomeComponent implements OnInit {
 
   treatSuppliesData(supplies) {
     let newData = [];
-    const formatter = new Intl.NumberFormat("pt-br", {
-      style: "currency",
-      currency: "BRL",
-      minimumFractionDigits: 2,
-      currencyDisplay: "symbol",
-    });
     for (let supply of supplies) {
       newData.push(
         {
           text1: supply.veiculo.placa,
-          text2: formatter.format(supply.valor),
+          text2: brlFormatter.format(supply.valor),
           color: supply.veiculo.cor
         }
       )
@@ -112,6 +91,10 @@ export class HomeComponent implements OnInit {
           console.error(err);
           //error handling
         })
+  }
+
+  loadMoreSupplies() {
+    this.supplyService.getSuppliesByUserId(2, ++this.currentPage);
   }
 
   getVehicleDetail(vehicleIndex) {
