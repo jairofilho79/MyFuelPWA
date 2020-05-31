@@ -21,6 +21,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { GeneralListComponent } from './components/general-list/general-list.component';
 import { DarkOrLightFontColorPipe } from './pipes/dark-or-light-font-color.pipe';
 import { ListNameFormatPipe } from './pipes/list-name-format.pipe';
+import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ListNameFormatPipe } from './pipes/list-name-format.pipe';
     HeaderComponent,
     GeneralListComponent,
     DarkOrLightFontColorPipe,
-    ListNameFormatPipe
+    ListNameFormatPipe,
+    AddVehicleComponent
   ],
   imports: [
     BrowserModule,

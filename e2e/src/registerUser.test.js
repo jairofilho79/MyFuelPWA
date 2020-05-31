@@ -1,7 +1,7 @@
 // const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
 const server = `http://localhost:4200`;
 
-const { getText, getUniqueString, clearForm } = require('./utils');
+const { getText, getUniqueString, clearForm, verifyToastMessage } = require('./utils');
 
 jest.setTimeout(20000);
 
@@ -46,12 +46,12 @@ async function submitForm() {
   await page.click(submitButtonSelector);
 }
 
-async function verifyToastMessage(titleMessage) {
-  const title = '.toast-title';
-  await page.waitForSelector(title);
-  const titleText = await getText(page, title);
-  expect(titleText).toContain(titleMessage);
-}
+// async function verifyToastMessage(titleMessage) {
+//   const title = '.toast-title';
+//   await page.waitForSelector(title);
+//   const titleText = await getText(page, title);
+//   expect(titleText).toContain(titleMessage);
+// }
 
 describe('Main flow of user registration', () => {
   beforeAll(async () => {
@@ -65,7 +65,7 @@ describe('Main flow of user registration', () => {
     await submitForm();
   })
   it('should show a success message and redirect to login', async () => {
-    await verifyToastMessage('Sucesso');
+    await verifyToastMessage(page, expect, 'Sucesso');
     await page.click('.toast-title');
     await page.waitForNavigation();
     const url = page.url();
@@ -103,6 +103,6 @@ describe('Invalid Data flow of user registration', () => {
   it('should return a business rule error', async () => {
     await fillForm("user", "user@mail.com", "password", "password");
     await submitForm();
-    await verifyToastMessage("Erro");
+    await verifyToastMessage(page, expect, 'Erro');
   });
 })

@@ -4,13 +4,14 @@ import { RegisterUserComponent } from "./components/register-user/register-user.
 import { LoginComponent } from "./components/login/login.component";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { HomeComponent } from "./components/home/home.component";
+import { AddVehicleComponent } from "./components/add-vehicle/add-vehicle.component";
 
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home'
+    redirectTo: 'addVehicle'
   },
   {
     path: 'registerUser',
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'addVehicle',
+    component: AddVehicleComponent
   },
   {
     path: '**',

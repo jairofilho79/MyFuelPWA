@@ -1,0 +1,23 @@
+.container, .form {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 4vw;
+  color: #436399;
+}
+
+.primary-button {
+  background-color: #436399;
+  font-size: 16px;
+  margin-top: 3vh;
+}
+
+#submitButton div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

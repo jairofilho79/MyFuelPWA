@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { SupplyService } from "src/app/services/supply.service";
 import brlFormatter from 'src/app/helper/currencyBRLFormatter';
 import { BehaviorSubject } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'mf-home',
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private vehicleService: VehicleService,
     private supplyService: SupplyService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -75,11 +77,10 @@ export class HomeComponent implements OnInit {
   }
 
   addNewVehicle() {
-    alert('add new vehicle');
+    this.router.navigate(['addVehicle']);
   }
 
   removeVehicle(vehicleIndex) {
-    alert('olha isso' + this.vehicles[vehicleIndex].id);
     this.vehicleService
       .deleteVehicle(this.vehicles[vehicleIndex].id)
       .subscribe(
