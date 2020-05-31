@@ -29,3 +29,16 @@ module.exports.clearForm = async (page, selector) => {
 module.exports.getUniqueString = (strLength=5) => {
   return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, strLength);
 }
+module.exports.getRandomNumber = (numberLength=2) => {
+  return (Math.random()*(10**numberLength)).toFixed(0);
+}
+module.exports.getLicencePlate = () => {
+  return module.exports.getUniqueString(3).toUpperCase() + '-' + module.exports.getRandomNumber(4);
+}
+
+module.exports.verifyToastMessage = async (page, expect, titleMessage) => {
+  const title = '.toast-title';
+  await page.waitForSelector(title);
+  const titleText = await module.exports.getText(page, title);
+  expect(titleText).toContain(titleMessage);
+}

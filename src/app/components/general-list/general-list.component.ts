@@ -44,7 +44,9 @@ export class GeneralListComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.eventsSubscription.unsubscribe();
+    if(this.onDataChange) {
+      this.eventsSubscription.unsubscribe();
+    }
   }
 
   removeEvent(index) {

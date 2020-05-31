@@ -3,6 +3,13 @@ const server = `http://localhost:4200`;
 const { getTexts, getText } = require('./utils');
 
 const paginatorSelector = '.mat-paginator-range-label';
+const loadMoreButton = '#loadMoreSupplies';
+const matSelect = '.mat-select-value'
+const vehicleTab = '#mat-tab-label-0-0'
+const gasStationTab = '#mat-tab-label-0-1'
+const vehicleList = "mf-general-list[ng-reflect-list-name='vehicle']"
+const supplyList = "mf-general-list[ng-reflect-list-name='supply']";
+const addVehicleButton = ".mat-button";
 
 jest.setTimeout(20000);
 
@@ -25,47 +32,57 @@ describe('Main flow', () => {
   });
 
   it('Should verify if a list of vehicles is displayed', async () => {
-    await page.waitForSelector("mf-general-list[ng-reflect-list-name='vehicle']", {visible: true});
+    await page.waitForSelector(vehicleList, {visible: true});
   });
 
   it('Should verify if a new Vehicle button is displayed', async () => {
-    await page.waitForSelector(".mat-button", {visible: true});
+    await page.waitForSelector(addVehicleButton, {visible: true});
   });
 
   it('Should change tab on click the gas_station icon', async () => {
-    await page.click('#mat-tab-label-0-1');
+    await page.click(gasStationTab);
   });
 
   it('Should verify if a list of supplies is displayed', async () => {
-    await page.waitForSelector("mf-general-list[ng-reflect-list-name='supply']", {visible: true});
+    await page.waitForSelector(supplyList, {visible: true});
   });
 
   it('Should verify if paginator is displayed', async () => {
-    await page.waitForSelector('#loadMoreSupplies');
-    await page.waitForSelector(paginatorSelector);
+    await page.waitFor(1000);
     const paginator = await getText(page, paginatorSelector);
     expect(paginator).toMatch("1 – 5 of 20")
   });
 
   it('Should load more supplies', async () => {
-    await page.waitForSelector('#loadMoreSupplies');
-    await page.click('#loadMoreSupplies');
+    await page.waitForSelector(loadMoreButton);
+    await page.click(loadMoreButton);
     await page.waitFor(1000);
     const paginator = await getText(page, paginatorSelector);
     expect(paginator).toMatch("1 – 5 of 25")
   });
 
   it('Should load more button desappier when it have no more supplies', async () => {
-    await page.waitForSelector('#loadMoreSupplies');
-    await page.click('#loadMoreSupplies');
-    await page.waitForSelector('#loadMoreSupplies', {hidden: true});
+    await page.waitForSelector(loadMoreButton);
+    await page.click(loadMoreButton);
+    await page.waitForSelector(loadMoreButton, {hidden: true});
   });
 
   it('Should change the number of rows', async () => {
-    await page.click('.mat-select-value');
+    await page.click(matSelect);
     await page.waitForSelector('#mat-option-4');
     await page.click('#mat-option-4');
     const suppliesRows = await getTexts(page, '.mat-row');
     expect(suppliesRows.length).toBe(10);
   });
+
+  it.skip('Should go to add vehicle page and come back', async () => {
+    //unstable for unknown reason
+    await page.click(vehicleTab);
+    await page.waitForSelector(addVehicleButton);
+    await page.click(addVehicleButton);
+    await page.waitForSelector('.title', { visible: true });
+    const url = page.url();
+    console.log(url);
+    expect(url).toContain('addVehicle');
+  })
 });
