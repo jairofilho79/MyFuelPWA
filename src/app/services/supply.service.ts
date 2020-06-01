@@ -13,30 +13,26 @@ const {server} = environment;
 })
 export class SupplyService {
 
-  supplies = new BehaviorSubject<Supply[]>([]);
-  _supplies = [];
-  currentPage = new BehaviorSubject(0);
-  totalPages = new BehaviorSubject(0);
+  userSupplies = new BehaviorSubject<Supply[]>([]);
+  _userSupplies = [];
+  vehicleSupplies = new BehaviorSubject<Supply[]>([]);
+  _vehicleSupplies = [];
   isLoadMoreAvailable = new BehaviorSubject(true);
+  isLoading = new BehaviorSubject(false);
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getSupplies() {
-    return this.supplies.asObservable();
+  getIsLoading() {
+    return this.isLoading.asObservable();
   }
 
-  getCurrentPage() {
-    return this.currentPage.asObservable();
+  getUserSupplies() {
+    return this.userSupplies.asObservable();
   }
-
-  setCurrentPage(currentPage) {
-    return this.currentPage.next(currentPage);
-  }
-
-  getTotalPages() {
-    return this.totalPages.asObservable();
+  getVehicleSupplies() {
+    return this.vehicleSupplies.asObservable();
   }
 
   $isLoadMoreAvailable() {
@@ -56,30 +52,54 @@ export class SupplyService {
   }
 
   getSuppliesByUserId(userId, page=0) {
+    this.isLoading.next(true);
     const params = new HttpParams()
       .append('page', ''+page);
     this.http.get(server + '/abastecimentos/user/' + userId, { params })
       .subscribe(
         (response: any) => {
-          this.totalPages.next(response.totalPages);
-          this._supplies = [...this._supplies, ...response.content];
-          this.supplies.next(this._supplies);
+          this._userSupplies = [...this._userSupplies, ...response.content];
+          this.userSupplies.next(this._userSupplies);
+          this.isLoadMoreAvailable.next(true);
+          this.isLoading.next(false);
         },
         error => {
           if(error.status === 404) {
             this.isLoadMoreAvailable.next(false);
+            this.userSupplies.next(this._userSupplies);
+            this.isLoading.next(false);
           }
         }
       )
   }
 
-  getSupplyesByVehicleId(vehicleId) {
-    this.http.get(server + '/abastecimentos/veiculo/' + vehicleId)
+  getSuppliesByVehicleId(vehicleId, page=0) {
+    const params = new HttpParams()
+      .append('page', ''+page);
+    this.http.get(server + '/abastecimentos/veiculo/' + vehicleId, { params })
       .subscribe(
         (response: any) => {
-          this.totalPages.next(response.totalPages);
-          this.supplies.next(response.content);
+          this._vehicleSupplies = [...this._vehicleSupplies, ...response.content];
+          console.log(this._vehicleSupplies);
+          this.vehicleSupplies.next(this._vehicleSupplies);
+          this.isLoadMoreAvailable.next(true);
+        },
+        error => {
+          if(error.status === 404) {
+            this.isLoadMoreAvailable.next(false);
+            this.vehicleSupplies.next(this._vehicleSupplies);
+          }
         }
       )
+  }
+
+  clearUserSupplies() {
+    this._userSupplies = []
+    this.userSupplies.next(this._userSupplies);
+  }
+
+  clearVehicleSupplies() {
+    this._vehicleSupplies = []
+    this.vehicleSupplies.next(this._vehicleSupplies);
   }
 }

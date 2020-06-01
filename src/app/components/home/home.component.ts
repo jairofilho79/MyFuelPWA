@@ -30,24 +30,26 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
+    this.currentPage = 0;
+    this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
+    this.vehicleService.getIsLoading().subscribe(isLoading => this.isLoadingVehicles = isLoading);
     this.vehicleService.getVehicles().subscribe(vehicles => {
-      this.isLoadingVehicles = false;
       this.vehicles = vehicles;
       this.treatedVehicles = this.treatVehiclesData(vehicles);
     });
-    this.supplyService.getSupplies().subscribe(supplies => {
-      this.isLoadingSupplies = false;
+    this.supplyService.getUserSupplies().subscribe(supplies => {
       this.treatedSupplies = this.treatSuppliesData(supplies);
       this.suppliesUpdate.next(this.treatedSupplies);
     })
     this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
-    this.isLoadingVehicles = true;
-    this.isLoadingSupplies = true;
+    // TODO: getUser
     this.vehicleService.getVehicleByUserId(2);
     this.supplyService.getSuppliesByUserId(2);
   }
-
+  //TODO: destroy and unsubscribe
+  ngOnDestroy() {
+    this.supplyService.clearUserSupplies();
+  }
   treatVehiclesData(vehicles) {
     let newData = [];
     for(let vehicle of vehicles) {
@@ -99,7 +101,9 @@ export class HomeComponent implements OnInit {
   }
 
   getVehicleDetail(vehicleIndex) {
-    alert('Displaying details of vehicle ' + vehicleIndex);
+    this.vehicleService.setCurrentVehicle(this.vehicles[vehicleIndex]);
+    this.supplyService.getSuppliesByVehicleId(this.vehicles[vehicleIndex].id);
+    this.router.navigate(['vehicleDetail']);
   }
 
 }

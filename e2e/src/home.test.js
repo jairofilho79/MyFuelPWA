@@ -1,17 +1,17 @@
 const server = `http://localhost:4200`;
 
-const { getTexts, getText } = require('./utils');
+const { getTexts, getText, clickElementByTextInside } = require('./utils');
 
 const paginatorSelector = '.mat-paginator-range-label';
 const loadMoreButton = '#loadMoreSupplies';
-const matSelect = '.mat-select-value'
+const matSelect = '.mat-select'
 const vehicleTab = '#mat-tab-label-0-0'
 const gasStationTab = '#mat-tab-label-0-1'
 const vehicleList = "mf-general-list[ng-reflect-list-name='vehicle']"
 const supplyList = "mf-general-list[ng-reflect-list-name='supply']";
 const addVehicleButton = ".mat-button";
 
-jest.setTimeout(20000);
+jest.setTimeout(10000);
 
 describe('Main flow', () => {
   beforeAll(async () => {
@@ -68,9 +68,9 @@ describe('Main flow', () => {
   });
 
   it('Should change the number of rows', async () => {
+    await page.waitForSelector(matSelect);
     await page.click(matSelect);
-    await page.waitForSelector('#mat-option-4');
-    await page.click('#mat-option-4');
+    await clickElementByTextInside(page, '.mat-option', '10');
     const suppliesRows = await getTexts(page, '.mat-row');
     expect(suppliesRows.length).toBe(10);
   });

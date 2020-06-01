@@ -20,6 +20,21 @@ module.exports.getTexts = async (page, selector) => {
   });
 }
 
+module.exports.clickElementByTextInside = async (page, selector, clickableName) => {
+  await page.waitForSelector(selector);
+  await page.$$eval(
+    selector,
+    (list, clickableName) => list.some(
+      item => {
+        if(item.textContent.includes(clickableName)) {
+          item.click();
+          return true;
+        }
+        return false;
+      }),
+    clickableName)
+}
+
 module.exports.clearForm = async (page, selector) => {
   await page.evaluate(
     selector => document.querySelector(selector).reset(),

@@ -50,14 +50,10 @@ export class GeneralListComponent implements OnInit {
   }
 
   removeEvent(index) {
-    //emit event with index;
-    alert('removed! ' + index);
     this.onRemoveEvent.emit(index);
   }
 
   clickEvent(index) {
-    //emit event with index;
-    alert('clicked! ' + index);
     this.onClickEvent.emit(index);
   }
 

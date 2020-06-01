@@ -8,6 +8,9 @@ describe('Main flow', () => {
   beforeAll(async () => {
     await page.goto(server+'/addVehicle');
   });
+  it('Should verify if header is displayed', async () => {
+    await page.waitForSelector("mf-header", {visible: true});
+  });
   it('Should have form inputs', async () => {
     await page.waitForSelector('#vehicleColor', {visible: true});
     await page.waitForSelector('#vehicleYear', {visible: true});
