@@ -3,7 +3,7 @@ const server = `http://localhost:4200`;
 
 const { getText, getUniqueString, clearForm, verifyToastMessage } = require('./utils');
 
-jest.setTimeout(5000);
+jest.setTimeout(20000);
 
 async function pageTitle() {
   const headerTitleSelector = '.title';

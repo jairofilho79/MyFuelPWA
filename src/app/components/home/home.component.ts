@@ -6,6 +6,7 @@ import { SupplyService } from "src/app/services/supply.service";
 import brlFormatter from 'src/app/helper/currencyBRLFormatter';
 import { BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: 'mf-home',
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
   isLoadMoreSuppliesAvailable = true;
 
   constructor(
+    private userService: UserService,
     private vehicleService: VehicleService,
     private supplyService: SupplyService,
     private toastr: ToastrService,
@@ -30,6 +32,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.vehicleService.clearCurrentVehicle();
     this.supplyService.clearVehicleSupplies();
     this.currentPage = 0;
     this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
@@ -44,8 +47,8 @@ export class HomeComponent implements OnInit {
     })
     this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
     // TODO: getUser
-    this.vehicleService.getVehicleByUserId(2);
-    this.supplyService.getSuppliesByUserId(2);
+    this.vehicleService.getVehicleByUserId(this.userService.getUser().id);
+    this.supplyService.getSuppliesByUserId(this.userService.getUser().id);
   }
   //TODO: destroy and unsubscribe
   ngOnDestroy() {
@@ -89,7 +92,7 @@ export class HomeComponent implements OnInit {
       .subscribe(
         () => {
           this.toastr.success("Veículo removido com sucesso", "Sucesso")
-          this.vehicleService.getVehicleByUserId(2);
+          this.vehicleService.getVehicleByUserId(this.userService.getUser().id);
         },
         err => {
           console.error(err);
@@ -98,7 +101,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadMoreSupplies() {
-    this.supplyService.getSuppliesByUserId(2, ++this.currentPage);
+    this.supplyService.getSuppliesByUserId(this.userService.getUser().id, ++this.currentPage);
   }
 
   getVehicleDetail(vehicleIndex) {

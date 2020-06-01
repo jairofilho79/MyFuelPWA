@@ -7,6 +7,7 @@ import { BehaviorSubject } from "rxjs";
 import { Supply } from "src/app/models/Supply";
 import { Vehicle } from "src/app/models/Vehicle";
 import { Router } from "@angular/router";
+import { ErrorHandlerService } from "src/app/services/error-handler.service";
 @Component({
   selector: 'mf-vehicle-detail',
   templateUrl: './vehicle-detail.component.html',
@@ -25,7 +26,8 @@ export class VehicleDetailComponent implements OnInit {
     private supplyService: SupplyService,
     private vehicleService: VehicleService,
     private router: Router,
-
+    private toastr: ToastrService,
+    private errorHandler: ErrorHandlerService
   ) { }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class VehicleDetailComponent implements OnInit {
       this.suppliesUpdate.next(this.treatedSupplies);
     })
     this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
-    this.vehicleService.getCurrentVehicle().subscribe(vehicle => {console.log(vehicle); this.vehicle = vehicle});
+    this.vehicleService.getCurrentVehicle().subscribe(vehicle => this.vehicle = vehicle);
   }
 
   treatSuppliesData(supplies) {
@@ -60,7 +62,23 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   removeSupply(index) {
-    this.supplyService.deleteSupply(this.supplies[index].id);
+    this.supplyService
+      .deleteSupply(this.supplies[index].id)
+      .subscribe(
+        () => {
+          this.toastr
+            .success('Abastecimento removido com sucesso', 'Sucesso')
+            .onHidden
+            .subscribe(() => {
+              this.supplyService.clearVehicleSupplies();
+              this.supplyService.getSuppliesByVehicleId(this.vehicle.id);
+              this.router.navigate(['vehicleDetail']);
+            })
+        },
+        err => {
+          this.errorHandler.showErrors(err);
+        }
+      )
   }
 
   loadMoreSupplies() {

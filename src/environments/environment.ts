@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   // server: 'http://localhost:3333/api',
   server: "https://devs-myfuel-api.herokuapp.com/api",
-  db: 'http://localhost:3000'
+  db: 'http://localhost:3000',
+  pagination_length: 20
 };
 
 /*

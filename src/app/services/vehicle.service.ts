@@ -12,6 +12,7 @@ export class VehicleService {
 
   vehicles = new BehaviorSubject<Vehicle[]>([]);
   currentVehicle = new BehaviorSubject<Vehicle>(undefined);
+  currentVehicleCheck: boolean;
   isLoading = new BehaviorSubject<boolean>(false);
 
   constructor(
@@ -26,8 +27,17 @@ export class VehicleService {
     return this.currentVehicle.asObservable();
   }
 
+  isCurrentVehicleAvailable() {
+    return this.currentVehicleCheck;
+  }
+
   setCurrentVehicle(vehicle) {
+    this.currentVehicleCheck = true
     this.currentVehicle.next(vehicle);
+  }
+
+  clearCurrentVehicle() {
+    this.currentVehicleCheck = false;
   }
 
   getIsLoading() {
