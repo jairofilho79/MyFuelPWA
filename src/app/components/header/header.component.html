@@ -1,3 +1,24 @@
-<h3>Olá, {{username}}</h3>
-  
-<h3>{{currentMonth | monthName}}: {{currentMonthTotal}}</h3>
+<div style="display: flex; justify-content: space-between; ">
+  <div
+    class="pointer"
+    style="font-size: 40px"
+    (click)="goBack()"
+    *ngIf="!isHomePage"
+  >
+    <mat-icon [inline]="true">arrow_back</mat-icon>
+  </div>
+  <div
+    class="pointer"
+    style="font-size: 40px"
+    (click)="logout()"
+    *ngIf="isHomePage"
+  >
+    <mat-icon [inline]="true">power_settings_new</mat-icon>
+  </div>
+  <div>
+    <h3 id="username">Olá, {{username}}</h3>
+    <h3>{{currentMonth | monthName}}: {{currentMonthTotal}}</h3>
+  </div>
+  <div id="logo">LOGO</div>
+</div>
+

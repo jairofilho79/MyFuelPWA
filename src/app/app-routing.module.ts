@@ -7,6 +7,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { AddVehicleComponent } from "./components/add-vehicle/add-vehicle.component";
 import { VehicleDetailComponent } from "./components/vehicle-detail/vehicle-detail.component";
 import { AddSupplyComponent } from "./components/add-supply/add-supply.component";
+import { CurrentVehicleGuard } from "./guards/current-vehicle.guard";
 
 
 const routes: Routes = [
@@ -33,11 +34,13 @@ const routes: Routes = [
   },
   {
     path: 'vehicleDetail',
-    component: VehicleDetailComponent
+    component: VehicleDetailComponent,
+    canActivate: [CurrentVehicleGuard]
   },
   {
     path: 'addSupply',
-    component: AddSupplyComponent
+    component: AddSupplyComponent,
+    canActivate: [CurrentVehicleGuard]
   },
   {
     path: '**',

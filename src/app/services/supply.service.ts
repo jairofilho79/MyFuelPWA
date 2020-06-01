@@ -6,7 +6,7 @@ import { Supply } from "../models/Supply";
 import {environment} from 'src/environments/environment';
 import { BehaviorSubject } from "rxjs";
 
-const {server} = environment;
+const {server, pagination_length} = environment;
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,8 @@ export class SupplyService {
   _vehicleSupplies = [];
   isLoadMoreAvailable = new BehaviorSubject(true);
   isLoading = new BehaviorSubject(false);
+
+
 
   constructor(
     private http: HttpClient
@@ -60,7 +62,11 @@ export class SupplyService {
         (response: any) => {
           this._userSupplies = [...this._userSupplies, ...response.content];
           this.userSupplies.next(this._userSupplies);
-          this.isLoadMoreAvailable.next(true);
+          if(response.content.length === pagination_length) {
+            this.isLoadMoreAvailable.next(true);
+          } else {
+            this.isLoadMoreAvailable.next(false);
+          }
           this.isLoading.next(false);
         },
         error => {
@@ -80,9 +86,12 @@ export class SupplyService {
       .subscribe(
         (response: any) => {
           this._vehicleSupplies = [...this._vehicleSupplies, ...response.content];
-          console.log(this._vehicleSupplies);
           this.vehicleSupplies.next(this._vehicleSupplies);
-          this.isLoadMoreAvailable.next(true);
+          if(response.content.length === pagination_length) {
+            this.isLoadMoreAvailable.next(true);
+          } else {
+            this.isLoadMoreAvailable.next(false);
+          }
         },
         error => {
           if(error.status === 404) {
