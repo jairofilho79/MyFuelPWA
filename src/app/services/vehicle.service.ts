@@ -11,6 +11,8 @@ import { BehaviorSubject } from "rxjs";
 export class VehicleService {
 
   vehicles = new BehaviorSubject<Vehicle[]>([]);
+  currentVehicle = new BehaviorSubject<Vehicle>(undefined);
+  isLoading = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient
@@ -20,24 +22,46 @@ export class VehicleService {
     return this.vehicles.asObservable();
   }
 
+  getCurrentVehicle() {
+    return this.currentVehicle.asObservable();
+  }
+
+  setCurrentVehicle(vehicle) {
+    this.currentVehicle.next(vehicle);
+  }
+
+  getIsLoading() {
+    return this.isLoading.asObservable();
+  }
+
   getVehicleByUserId(userId) {
+    this.isLoading.next(true);
     this.http
       .get(environment.server + '/veiculos/user/' + userId)
       .subscribe(
         (response: Vehicle[]) => {
           this.vehicles.next(response);
+          this.isLoading.next(false);
         },
+        error => {
+          this.isLoading.next(false);
+        }
         // error handling
       );
   }
 
   getVehicleById(vehicleId) {
+    this.isLoading.next(true);
     return this.http
       .get(environment.server + '/veiculos/' + vehicleId)
       .subscribe(
         (response: Vehicle[]) => {
           this.vehicles.next(response);
+          this.isLoading.next(false);
         },
+        error => {
+          this.isLoading.next(false);
+        }
         // error handling
       );
   }
