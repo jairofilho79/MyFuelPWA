@@ -6,6 +6,7 @@ import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { HomeComponent } from "./components/home/home.component";
 import { AddVehicleComponent } from "./components/add-vehicle/add-vehicle.component";
 import { VehicleDetailComponent } from "./components/vehicle-detail/vehicle-detail.component";
+import { AddSupplyComponent } from "./components/add-supply/add-supply.component";
 
 
 const routes: Routes = [
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: 'vehicleDetail',
     component: VehicleDetailComponent
+  },
+  {
+    path: 'addSupply',
+    component: AddSupplyComponent
   },
   {
     path: '**',

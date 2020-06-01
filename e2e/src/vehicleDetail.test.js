@@ -5,7 +5,7 @@ const { getTexts, getText, clickElementByTextInside } = require('./utils');
 const vehicleList = "mf-general-list[ng-reflect-list-name='vehicle']"
 const supplyList = "mf-general-list[ng-reflect-list-name='vehicleSupply']"
 
-jest.setTimeout(20000);
+jest.setTimeout(5000);
 
 describe('Main flow', () => {
   beforeAll(async () => {
@@ -23,6 +23,7 @@ describe('Main flow', () => {
   it('Should have loadMore button and add new', async () => {
     await clickElementByTextInside(page, '.mat-icon', 'cloud_download');
     await clickElementByTextInside(page, '.mat-icon', 'add');
+    await page.goBack();
   });
   it('Should go to info tab', async () => {
     await clickElementByTextInside(page, '.mat-icon', 'info');

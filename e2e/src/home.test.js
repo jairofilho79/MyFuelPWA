@@ -58,7 +58,7 @@ describe('Main flow', () => {
     await page.click(loadMoreButton);
     await page.waitFor(1000);
     const paginator = await getText(page, paginatorSelector);
-    expect(paginator).toMatch("1 – 5 of 25")
+    expect(paginator).toMatch("1 – 5 of 40")
   });
 
   it('Should load more button desappier when it have no more supplies', async () => {
