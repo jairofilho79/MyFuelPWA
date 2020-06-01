@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.supplyService.clearVehicleSupplies();
     this.currentPage = 0;
     this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
     this.vehicleService.getIsLoading().subscribe(isLoading => this.isLoadingVehicles = isLoading);

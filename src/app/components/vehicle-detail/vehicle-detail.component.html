@@ -23,6 +23,7 @@
           [onDataChange]="suppliesUpdate.asObservable()"
           [data]="treatedSupplies"
           listName='vehicleSupply'
+          (onRemoveEvent)="removeSupply($event)"
           [displayedColumns]="['columns1', 'columns2']"
         ></mf-general-list>
 

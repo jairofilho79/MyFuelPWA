@@ -1,3 +1,5 @@
+import { Vehicle } from "./Vehicle";
+
 export interface Supply {
   data: string;
   id: number;
@@ -5,4 +7,5 @@ export interface Supply {
   posto:	string;
   precoCombustivel:	number;
   valor: number;
+  veiculo: Vehicle;
 }

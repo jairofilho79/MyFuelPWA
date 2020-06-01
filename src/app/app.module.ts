@@ -23,6 +23,7 @@ import { DarkOrLightFontColorPipe } from './pipes/dark-or-light-font-color.pipe'
 import { ListNameFormatPipe } from './pipes/list-name-format.pipe';
 import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
 import { VehicleDetailComponent } from './components/vehicle-detail/vehicle-detail.component';
+import { AddSupplyComponent } from './components/add-supply/add-supply.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { VehicleDetailComponent } from './components/vehicle-detail/vehicle-deta
     DarkOrLightFontColorPipe,
     ListNameFormatPipe,
     AddVehicleComponent,
-    VehicleDetailComponent
+    VehicleDetailComponent,
+    AddSupplyComponent
   ],
   imports: [
     BrowserModule,

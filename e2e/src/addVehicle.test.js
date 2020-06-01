@@ -2,7 +2,7 @@ const server = `http://localhost:4200`;
 
 const { getLicencePlate, verifyToastMessage } = require('./utils');
 
-jest.setTimeout(20000);
+jest.setTimeout(5000);
 
 describe('Main flow', () => {
   beforeAll(async () => {

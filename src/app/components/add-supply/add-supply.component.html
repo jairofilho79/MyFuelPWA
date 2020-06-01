@@ -1,0 +1,65 @@
+<div class="container">
+  <mf-header></mf-header>
+  <h1 class="title">Cadastrar Veículo</h1>
+  <form class="form" [formGroup]="addSupplyForm">
+    <mat-form-field>
+      <input
+        id="supplyPrice"
+        matInput
+        type="number"
+        placeholder="Preço total pago"
+        formControlName="valor"
+      >
+      <mat-hint *ngIf="addSupplyForm.get('valor').invalid">Insira o valor do abastecimento.</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        id="supplyPriceSupply"
+        matInput
+        type="number"
+        placeholder="Preço do combustível"
+        formControlName="precoCombustivel"
+      >
+      <mat-hint *ngIf="addSupplyForm.get('precoCombustivel').invalid">Insira o preço do combustível no abastecimento.</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        id="supplyKm"
+        matInput
+        type="number"
+        placeholder="Quilometragem do carro atual"
+        formControlName="kmAtual"
+      >
+      <mat-hint *ngIf="addSupplyForm.get('kmAtual').invalid">Insira a quilometragem atual no abastecimento.</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        id="supplyGasStation"
+        matInput
+        type="text"
+        placeholder="Posto de combustível"
+        formControlName="posto"
+      >
+      <mat-hint *ngIf="addSupplyForm.get('posto').invalid">Insira o nome do posto do abastecimento.</mat-hint>
+    </mat-form-field>
+    <button
+      id="submitButton"
+      style="display:inline-block;"
+      mat-raised-button
+      color="primary"
+      class="primary-button"
+      type="button"
+      (click)="register()"
+      [disabled]="addSupplyForm.invalid"
+    >
+      <div>
+        <span *ngIf="!isLoading">Cadastrar</span>
+        <mat-spinner
+          [diameter]="36"
+          *ngIf="isLoading"
+        >
+        </mat-spinner>
+      </div>
+    </button>
+  </form>
+</div>
