@@ -14,7 +14,7 @@ describe('Main flow', () => {
     await page.waitForSelector(vehicleList, {visible: true});
   });
   it('Should click in first vehicle', async () => {
-    await clickElementByTextInside(page, '.mat-row', 'JSF-1009');
+    await clickElementByTextInside(page, '.mat-row', 'JSF-7914');
   })
   it('Should have a list of supplies', async () => {
     await page.waitForSelector(supplyList, {visible: true});

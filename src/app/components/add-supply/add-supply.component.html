@@ -1,6 +1,6 @@
 <div class="container">
   <mf-header></mf-header>
-  <h1 class="title">Cadastrar Veículo</h1>
+  <h1 class="title">Cadastrar Abastecimento</h1>
   <form class="form" [formGroup]="addSupplyForm">
     <mat-form-field>
       <input
@@ -21,6 +21,16 @@
         formControlName="precoCombustivel"
       >
       <mat-hint *ngIf="addSupplyForm.get('precoCombustivel').invalid">Insira o preço do combustível no abastecimento.</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        id="supplyTypeSupply"
+        matInput
+        type="text"
+        placeholder="Tipo do combustível"
+        formControlName="tipoCombustivel"
+      >
+      <mat-hint *ngIf="addSupplyForm.get('tipoCombustivel').invalid">Insira o tipo do combustível no abastecimento Ex: Gasolina Comum.</mat-hint>
     </mat-form-field>
     <mat-form-field>
       <input

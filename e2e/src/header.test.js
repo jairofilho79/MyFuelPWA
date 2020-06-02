@@ -27,7 +27,7 @@ describe('Main flow', () => {
   });
 
   it('Should click in first vehicle', async () => {
-    await clickElementByTextInside(page, '.mat-row', 'JSF-1009');
+    await clickElementByTextInside(page, '.mat-row', 'JSF-7914');
   });
 
   it('Should come back to home page', async () => {
