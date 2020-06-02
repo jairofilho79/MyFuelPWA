@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
 import { UserService } from "src/app/services/user.service";
 import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material";
+import { DialogComponent } from "../dialog/dialog.component";
 
 @Component({
   selector: 'mf-header',
@@ -23,7 +25,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private location: Location,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -40,8 +43,18 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([this.navigationBackTree[this.location.path()]])
   }
 
+  confirmLogout() {
+    const logoutDialog = this.dialog.open(DialogComponent, {
+      width: '50vw',
+      data: { reason: 'Você quer mesmo sair?'}
+    })
+
+    logoutDialog.afterClosed().subscribe((result) => result && this.logout());
+  }
+
   logout() {
-    // alert('logout');
+    // logout
+    console.log('logout')
   }
 
   getCurrentMonthTotal() {

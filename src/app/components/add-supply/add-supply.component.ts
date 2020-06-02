@@ -37,6 +37,7 @@ export class AddSupplyComponent implements OnInit {
     this.addSupplyForm = this.formBuilder.group({
       valor: ['', Validators.required],
       precoCombustivel: ['', Validators.required],
+      tipoCombustivel: ['', Validators.required],
       kmAtual: ['', Validators.required],
       posto: ['', Validators.required]
     })

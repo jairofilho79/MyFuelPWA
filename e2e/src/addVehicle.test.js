@@ -1,6 +1,6 @@
 const server = `http://localhost:4200`;
 
-const { getLicencePlate, verifyToastMessage } = require('./utils');
+const { getLicencePlate, verifyToastMessage, submitButton } = require('./utils');
 
 jest.setTimeout(5000);
 
@@ -19,7 +19,7 @@ describe('Main flow', () => {
     await page.waitForSelector('#vehicleBrand', {visible: true});
     await page.waitForSelector('#vehicleModel', {visible: true});
     await page.waitForSelector('#vehicleLicensePlate', {visible: true});
-    await page.waitForSelector('#submitButton[disabled=true]',{visible: true});
+    await page.waitForSelector(submitButton + '[disabled]',{visible: true});
   });
   it('Should fill form inputs', async () => {
     await page.type('#vehicleYear', '2020');
@@ -30,8 +30,8 @@ describe('Main flow', () => {
     await page.type('#vehicleLicensePlate', getLicencePlate());
   });
   it('Should click at submit button', async () => {
-    await page.waitForSelector('#submitButton[disabled]',{hidden: true});
-    await page.click('#submitButton');
+    await page.waitForSelector(submitButton + '[disabled]',{hidden: true});
+    await page.click(submitButton);
   })
   it('Should appear a successful toast', async () => {
     await verifyToastMessage(page, expect, 'Sucesso');

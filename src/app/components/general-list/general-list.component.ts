@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatTableDataSource, MatDialog } from "@angular/material";
 import { Observable, Subscription } from "rxjs";
+import { DialogComponent } from "../dialog/dialog.component";
 
 @Component({
   selector: 'mf-general-list',
@@ -30,7 +31,9 @@ export class GeneralListComponent implements OnInit {
    * ]
    */
 
-  constructor() {
+  constructor(
+    private dialog: MatDialog
+  ) {
    }
 
   ngOnInit() {
@@ -49,11 +52,17 @@ export class GeneralListComponent implements OnInit {
     }
   }
 
-  removeEvent(index) {
-    this.onRemoveEvent.emit(index);
+  removeEvent(localIndex) {
+    const index = this.paginator.pageSize * this.paginator.pageIndex + localIndex;
+    const logoutDialog = this.dialog.open(DialogComponent, {
+      width: '50vw',
+      data: { reason: 'Você quer mesmo deletar este item?'}
+    })
+    logoutDialog.afterClosed().subscribe((result) => result && this.onRemoveEvent.emit(index));
   }
 
-  clickEvent(index) {
+  clickEvent(localIndex) {
+    const index = this.paginator.pageSize * this.paginator.pageIndex + localIndex;
     this.onClickEvent.emit(index);
   }
 

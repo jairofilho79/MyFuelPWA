@@ -1,7 +1,6 @@
-// module.exports.getText = async (page, selector) => {
-//   return await page.$eval(selector, el => el.textContent);
-// }
 
+module.exports.submitButton = "#submitButton";
+module.exports.vehicleList = "mf-general-list[ng-reflect-list-name='vehicle']";
 module.exports.getText = async (page, selector) => {
   // return await page.$eval(selector, el => el !== null);
   return await page.$eval(selector, el => {
@@ -14,7 +13,6 @@ module.exports.getText = async (page, selector) => {
 }
 
 module.exports.getTexts = async (page, selector) => {
-  // return await page.$eval(selector, el => el !== null);
   return await page.$$eval(selector, list => {
     return list.map(data => data.textContent)
   });

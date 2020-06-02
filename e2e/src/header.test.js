@@ -1,8 +1,6 @@
 const server = `http://localhost:4200`;
 
-const { getTexts, getText, clickElementByTextInside } = require('./utils');
-
-const vehicleList = "mf-general-list[ng-reflect-list-name='vehicle']"
+const { getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
 
 jest.setTimeout(10000);
 
@@ -29,7 +27,7 @@ describe('Main flow', () => {
   });
 
   it('Should click in first vehicle', async () => {
-    await clickElementByTextInside(page, '.mat-row', 'JSF-1009');
+    await clickElementByTextInside(page, '.mat-row', 'JSF-7914');
   });
 
   it('Should come back to home page', async () => {
