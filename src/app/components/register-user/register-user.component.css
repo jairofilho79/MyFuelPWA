@@ -16,6 +16,10 @@
   margin-top: 3vh;
 }
 
+#submitButton {
+  display:inline-block;
+}
+
 #submitButton div{
   display: flex;
   align-items: center;

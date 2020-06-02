@@ -1,0 +1,8 @@
+.logout, .arrowBack {
+  font-size: 40px
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+}

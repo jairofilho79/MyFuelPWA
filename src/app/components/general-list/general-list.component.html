@@ -1,38 +1,5 @@
-<!-- <mat-list role="list">
-    <mat-list-item
-        role="listitem"
-        *ngFor="let item of data; let i=dataIndex"
-        [style.background-color]="item.color || defaultColor"
-        [style.color]="(item.color || defaultColor) | darkOrLightFontColor"
-        (click)="$event.stopPropagation(); clickEvent(i)"
-        class="pointer"
-    >
-        <div
-            style="display: flex; justify-content: space-between; width: 100%; align-items: center"
-            >
-            <div>{{item.text1}}</div>
-            <div style="display: flex; justify-content: space-between; align-items: center; width: 53%">
-              <div>{{item.text2}}</div>
-              <div>
-                  <button
-                      style="background-color: transparent; border: 0;"
-                      [style.color]="(item.color || defaultColor) | darkOrLightFontColor"
-                      mat-list-item
-                      *ngIf="onRemoveEnable"
-                      (click)="$event.stopPropagation(); removeEvent(i)"
-                      class="pointer"
-                  >
-                      <mat-icon >delete_forever</mat-icon>
-                  </button>
-              </div>
-            </div>
-
-        </div>
-    </mat-list-item>
-  </mat-list> -->
-
 <div class="mat-elevation-z8">
-  <table mat-table [multiTemplateDataRows]="true" [dataSource]="dataSource" style="width: 100%;">
+  <table mat-table [multiTemplateDataRows]="true" [dataSource]="dataSource">
 
     <ng-container [matColumnDef]="displayedColumns[0]">
       <th mat-header-cell *matHeaderCellDef> {{displayedColumns[0]}}</th>
@@ -65,8 +32,7 @@
         class="pointer"
       >
         <button
-          class="pointer"
-          style="background-color: transparent; border: 0;"
+          class="pointer removeButton"
           [style.color]="(element.color || defaultColor) | darkOrLightFontColor"
         >
           <mat-icon >delete_forever</mat-icon>

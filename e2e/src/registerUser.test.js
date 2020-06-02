@@ -1,7 +1,7 @@
 // const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
 const server = `http://localhost:4200`;
 
-const { getText, getUniqueString, clearForm, verifyToastMessage } = require('./utils');
+const { getText, getUniqueString, clearForm, verifyToastMessage, submitButton } = require('./utils');
 
 jest.setTimeout(20000);
 
@@ -26,8 +26,7 @@ async function formsInput() {
 }
 
 async function disabledSubmitButton() {
-  const disabledSubmitButtonSelector = "#submitButton[disabled]";
-  await page.waitForSelector(disabledSubmitButtonSelector);
+  await page.waitForSelector(submitButton + "[disabled]");
 }
 
 async function fillForm(name, email, password, confirmPassword) {
@@ -42,16 +41,8 @@ async function fillForm(name, email, password, confirmPassword) {
 }
 
 async function submitForm() {
-  const submitButtonSelector = "#submitButton";
-  await page.click(submitButtonSelector);
+  await page.click(submitButton);
 }
-
-// async function verifyToastMessage(titleMessage) {
-//   const title = '.toast-title';
-//   await page.waitForSelector(title);
-//   const titleText = await getText(page, title);
-//   expect(titleText).toContain(titleMessage);
-// }
 
 describe('Main flow of user registration', () => {
   beforeAll(async () => {

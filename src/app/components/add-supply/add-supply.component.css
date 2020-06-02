@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.mat-table {
+  width: 100%;
+}
+
 .title {
   font-weight: 700;
   font-size: 4vw;
@@ -16,8 +20,17 @@
   margin-top: 3vh;
 }
 
+#submitButton {
+  display:inline-block;
+}
+
 #submitButton div{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.removeButton{
+  background-color: transparent;
+  border: 0;
 }

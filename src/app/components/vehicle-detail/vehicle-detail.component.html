@@ -4,13 +4,13 @@
 
   <mat-tab-group [dynamicHeight]='true'>
 
-    <mat-tab style="height: 100%">
+    <mat-tab class="vehicleDetailTab">
 
       <ng-template mat-tab-label>
         <mat-icon >local_gas_station</mat-icon>
       </ng-template>
       <!-- TODO: make a component of this -->
-      <div style="width: 100%; margin-top: 5vh; display: flex; justify-content: center; align-items: center; ">
+      <div class="spinner">
         <mat-spinner
           [diameter]="108"
           *ngIf="isLoadingSupplies"
@@ -27,12 +27,11 @@
           [displayedColumns]="['columns1', 'columns2', 'remove']"
         ></mf-general-list>
 
-        <div
-          style="display: flex; flex-direction: row; align-items: flex-start;"
-        >
+        <div class="suppliesButtonsContainer">
           <button
             mat-button
-            style="color: white; width: 50%; background-color: #436399; height: 40px;"
+            class="vehicleDetailButton"
+            style="width: 50%;"
             (click)="loadMoreSupplies()"
             *ngIf="isLoadMoreSuppliesAvailable"
             id="loadMoreSupplies"
@@ -41,7 +40,7 @@
           </button>
           <button
             mat-button
-            style="color: white; background-color: #436399; height: 40px;"
+            class="vehicleDetailButton"
             [style.width]="isLoadMoreSuppliesAvailable ? '50%' : '100%'"
             (click)="addNewSupply()"
           >
@@ -52,22 +51,20 @@
 
     </mat-tab>
 
-    <mat-tab style="height: 100%" >
+    <mat-tab class="vehicleDetailTab">
 
       <ng-template mat-tab-label>
         <mat-icon >info</mat-icon>
       </ng-template>
 
-      <div
-        style="margin-top: 5vh; height: 30vh; display: flex; flex-direction: column; justify-content: space-between;"
-      >
+      <div class="infoList">
         <div id="brand-model-year"  >{{vehicle.marca}} {{vehicle.modelo}} - {{vehicle.ano}}</div>
         <div id="license-plate">Placa: {{vehicle.placa}}</div>
         <div id="km">Km: {{vehicle.km}}</div>
         <div id="tank">Capacidade do tanque: {{vehicle.capacidadeTanque}}</div>
-        <div style="display: flex; flex-direction: row;">
+        <div class="vehicleColorContainer">
           <div id="color">cor:</div>
-          <div [style.background-color]="vehicle.cor" style="height: 2vw; width: 3vw; margin-left: 1vw;"></div>
+          <div [style.background-color]="vehicle.cor" id="vehicleColor"></div>
         </div>
       </div>
 

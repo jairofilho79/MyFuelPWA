@@ -4,13 +4,13 @@
 
   <mat-tab-group [dynamicHeight]='true'>
 
-    <mat-tab style="height: 100%" >
+    <mat-tab class="homeTab">
 
       <ng-template mat-tab-label>
         <mat-icon >directions_car</mat-icon>
       </ng-template>
 
-      <div style="width: 100%; margin-top: 5vh; display: flex; justify-content: center; align-items: center; ">
+      <div class="spinner">
         <mat-spinner
           [diameter]="108"
           *ngIf="isLoadingVehicles"
@@ -26,12 +26,10 @@
           (onRemoveEvent)="removeVehicle($event)"
           (onClickEvent)="getVehicleDetail($event)"
         ></mf-general-list>
-        <div
-          style="display: flex; flex-direction: column; align-items: center;"
-        >
+        <div class="buttonsContainer">
           <button
+            class="homeButton"
             mat-button
-            style="color: white; width: 100%; background-color: #436399; height: 40px;"
             (click)="addNewVehicle()"
           >
             <mat-icon>add</mat-icon>
@@ -41,13 +39,13 @@
 
     </mat-tab>
 
-    <mat-tab style="height: 100%">
+    <mat-tab class="homeTab">
 
       <ng-template mat-tab-label>
         <mat-icon >local_gas_station</mat-icon>
       </ng-template>
       <!-- TODO: make a component of this -->
-      <div style="width: 100%; margin-top: 5vh; display: flex; justify-content: center; align-items: center; ">
+      <div class="spinner">
         <mat-spinner
           [diameter]="108"
           *ngIf="isLoadingSupplies"
@@ -65,7 +63,7 @@
 
         <button
             mat-button
-            style="color: white; width: 100%; background-color: #436399; height: 40px;"
+            class="homeButton"
             (click)="loadMoreSupplies()"
             *ngIf="isLoadMoreSuppliesAvailable"
             id="loadMoreSupplies"

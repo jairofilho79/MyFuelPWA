@@ -1,8 +1,6 @@
 const server = `http://localhost:4200`;
 
-const { clickElementByTextInside, verifyToastMessage } = require('./utils');
-
-const vehicleList = "mf-general-list[ng-reflect-list-name='vehicle']"
+const { clickElementByTextInside, verifyToastMessage, vehicleList } = require('./utils');
 
 jest.setTimeout(5000);
 

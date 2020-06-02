@@ -1,0 +1,24 @@
+.homeTab {
+  height: 100%;
+}
+
+.spinner {
+  width: 100%;
+  margin-top: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homeButton {
+  color: white;
+  width: 100%;
+  background-color: #436399;
+  height: 40px;
+}

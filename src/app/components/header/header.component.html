@@ -1,16 +1,14 @@
-<div style="display: flex; justify-content: space-between; ">
+<div class="headerContainer">
   <div
-    class="pointer"
-    style="font-size: 40px"
+    class="pointer arrowBack"
     (click)="goBack()"
     *ngIf="!isHomePage"
   >
     <mat-icon [inline]="true">arrow_back</mat-icon>
   </div>
   <div
-    class="pointer"
-    style="font-size: 40px"
-    (click)="logout()"
+    class="pointer logout"
+    (click)="confirmLogout()"
     *ngIf="isHomePage"
   >
     <mat-icon [inline]="true">power_settings_new</mat-icon>

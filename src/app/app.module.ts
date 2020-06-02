@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 
-import { MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatTabsModule, MatTableModule, MatPaginatorModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatTabsModule, MatTableModule, MatPaginatorModule, MatDialogModule } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +24,7 @@ import { ListNameFormatPipe } from './pipes/list-name-format.pipe';
 import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
 import { VehicleDetailComponent } from './components/vehicle-detail/vehicle-detail.component';
 import { AddSupplyComponent } from './components/add-supply/add-supply.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AddSupplyComponent } from './components/add-supply/add-supply.component
     ListNameFormatPipe,
     AddVehicleComponent,
     VehicleDetailComponent,
-    AddSupplyComponent
+    AddSupplyComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +58,7 @@ import { AddSupplyComponent } from './components/add-supply/add-supply.component
     MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
+    MatDialogModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     ToastrModule.forRoot({
@@ -65,6 +68,6 @@ import { AddSupplyComponent } from './components/add-supply/add-supply.component
     })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, DialogComponent]
 })
 export class AppModule { }
