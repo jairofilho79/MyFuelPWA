@@ -37,7 +37,6 @@ describe('Main Flow', () => {
     await page.click(submitButton);
   })
   it('Should appear a successful toast', async () => {
-    // await page.waitFor(5000);
     await verifyToastMessage(page, expect, 'Sucesso');
     await page.click('.toast-title');
     await page.waitForNavigation();

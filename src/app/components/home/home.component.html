@@ -23,6 +23,7 @@
           [data]="treatedVehicles"
           listName='vehicle'
           [displayedColumns]="['column1', 'column2', 'remove']"
+          [onDataChange]="vehiclesUpdate.asObservable()"
           (onRemoveEvent)="removeVehicle($event)"
           (onClickEvent)="getVehicleDetail($event)"
         ></mf-general-list>

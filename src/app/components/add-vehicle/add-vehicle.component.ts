@@ -40,28 +40,24 @@ export class AddVehicleComponent implements OnInit {
     })
   }
 
-  register() {
+  async register() {
     this.isLoading = true;
     this.vehicle = this.addVehicleForm.getRawValue();
     this.vehicle.user = this.userService.getUser();
-    console.log(this.vehicle);
-    this.vehicleService
-      .createNewVehicle(this.vehicle)
-      .subscribe(
-        () => {
-          this.isLoading = false;
-          this.toastr
-            .success('Veículo cadastrado com sucesso', 'Sucesso')
-            .onHidden
-            .subscribe(() => {
-              this.router.navigate(['home']);
-            })
-        },
-        err => {
-          this.isLoading = false;
-          this.errorHandler.showErrors(err);
-        }
-      )
+    try {
+      await this.vehicleService
+        .createNewVehicle(this.vehicle);
+      this.isLoading = false;
+      this.toastr
+        .success('Veículo cadastrado com sucesso', 'Sucesso')
+        .onHidden
+        .subscribe(() => {
+          this.router.navigate(['home']);
+        })
+    } catch(err) {
+      this.isLoading = false;
+      this.errorHandler.showErrors(err);
+    }
   }
 
 }

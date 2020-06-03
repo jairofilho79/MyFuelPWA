@@ -1,6 +1,8 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
+  "buildOptimizer": true,
+  "serviceWorker": true,
   "assetGroups": [
     {
       "name": "app",
@@ -23,6 +25,18 @@
           "/assets/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "mf-api",
+      "urls": [
+        "https://fonts.googleapis.com/icon"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 10000
       }
     }
   ]

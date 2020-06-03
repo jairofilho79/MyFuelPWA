@@ -59,8 +59,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot({
       timeOut: 300000,
       positionClass: 'toast-top-right',

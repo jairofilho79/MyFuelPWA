@@ -4,11 +4,9 @@ import { ToastrService } from "ngx-toastr";
 import { VehicleService } from "src/app/services/vehicle.service";
 import { Router } from "@angular/router";
 import { ErrorHandlerService } from "src/app/services/error-handler.service";
-import { UserService } from "src/app/services/user.service";
 import { Supply } from "src/app/models/Supply";
-import { BehaviorSubject } from "rxjs";
 import { Vehicle } from "src/app/models/Vehicle";
-import { SupplyService } from "src/app/services/supply.service";
+import { VehicleSupplyService } from "src/app/services/vehicle-supply.service";
 
 @Component({
   selector: 'mf-add-supply',
@@ -27,7 +25,7 @@ export class AddSupplyComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private vehicleService: VehicleService,
-    private supplyService: SupplyService,
+    private supplyService: VehicleSupplyService,
     private router: Router,
     private errorHandler: ErrorHandlerService,
   ) { }
@@ -47,6 +45,7 @@ export class AddSupplyComponent implements OnInit {
     this.$vehicle.unsubscribe();
     this.supplyService.getSuppliesByVehicleId(this.vehicle.id,0);
   }
+
   register() {
     this.isLoading = true;
     this.supply = this.addSupplyForm.getRawValue();
