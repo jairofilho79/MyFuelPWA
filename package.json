@@ -5,10 +5,11 @@
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
-    "jest": "\"cd e2e/src/ && jest\" $npm_config_file",
+    "jest": "cd e2e/src/ && jest $npm_config_file",
     "jest:hlf": "cd e2e/src/ && cross-env HEADLESS=false jest $npm_config_file",
     "postinstall": "ng build --aot --prod",
-    "serverProd": "npm run postinstall && npm start"
+    "buildStaging": "nodemon --watch src --exec \"ng build --prod --watch=true --build-optimizer=false\"",
+    "serverStaging": "nodemon --watch dist --exec \"npm start\""
   },
   "private": true,
   "dependencies": {

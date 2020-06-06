@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { UserService } from "src/app/services/user.service";
 import { UserSupplyService } from "src/app/services/user-supply.service";
 import { OfflineService } from "src/app/services/offline.service";
+import { VehicleSupplyService } from "src/app/services/vehicle-supply.service";
 
 @Component({
   selector: 'mf-home',
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private vehicleService: VehicleService,
     private supplyService: UserSupplyService,
+    private vehicleSupplyService: VehicleSupplyService,
     private toastr: ToastrService,
     private router: Router,
     private offlineService: OfflineService
@@ -55,14 +57,13 @@ export class HomeComponent implements OnInit {
       this.suppliesUpdate.next(this.treatedSupplies);
     })
     this.$isLoadMoreAvailable = this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
-    this.vehicleService.clearCurrentVehicle();
     this.currentPage = 0;
     this.vehicleService.getVehicleByUserId(this.userService.getUser().id);
     this.supplyService.getSuppliesByUserId(this.userService.getUser().id);
   }
   //TODO: destroy and unsubscribe
   ngOnDestroy() {
-    this.supplyService.clearUserSupplies();
+    this.vehicleSupplyService.removeDataFromScreen();
     this.$isOnline.unsubscribe();
     this.$supplyServiceGetIsLoading.unsubscribe();
     this.$vehicleServiceGetIsLoading.unsubscribe();

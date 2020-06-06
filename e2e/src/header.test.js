@@ -1,6 +1,4 @@
-const server = `http://localhost:4200`;
-
-const { getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
+const { server, clickElementByTextInside, vehicleList } = require('./utils');
 
 jest.setTimeout(10000);
 

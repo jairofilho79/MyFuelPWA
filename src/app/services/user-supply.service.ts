@@ -5,6 +5,8 @@ import {environment} from 'src/environments/environment';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { OfflineService } from "./offline.service";
 import Dexie from 'dexie';
+import { UserService } from "./user.service";
+import { User } from "../models/User";
 
 const {server, pagination_length} = environment;
 
@@ -20,16 +22,19 @@ export class UserSupplyService {
   isOnline: boolean;
   db: Dexie
   table: Dexie.Table<Supply, any>
+  user: User;
 
   constructor(
     private http: HttpClient,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    private userService: UserService
   ) {
     this.dbInit();
+    this._updateLocalSupplies();
     this.offlineService.isOnline().subscribe(online => {
       this.isOnline = online;
       if(this.isOnline) {
-        this.getSuppliesByUserId(2);
+        this.getSuppliesByUserId(this.userService.getUser().id);
       } else {
         this.isLoadMoreAvailable.next(false);
       }
@@ -56,17 +61,12 @@ export class UserSupplyService {
     return this.isLoadMoreAvailable.asObservable();
   }
 
-  clearUserSupplies() {
+  async _clearUserSupplies() {
     if(this.isOnline) {
-      this.table.clear().then(() => {
-        this._userSupplies = []
-        this.userSupplies.next(this._userSupplies);
-      })
-    } else {
-      this._userSupplies = []
-      this.userSupplies.next(this._userSupplies);
+      await this.table.clear();
     }
-
+    this._userSupplies = []
+    this.userSupplies.next(this._userSupplies);
   }
 
   async _updateLocalSupplies() {
@@ -84,33 +84,35 @@ export class UserSupplyService {
   }
 
   //getSuppliesByUserIdOnline
-  _getSBUIdOn(userId, page) {
-    this.isLoading.next(true);
-    const params = new HttpParams()
-      .append('page', ''+page);
-    this.http.get(server + '/abastecimentos/user/' + userId, { params })
-      .subscribe(
-        async (response: any) => {
-          try {
-            await this.table.bulkAdd(response.content);
-          }
-          finally {
-            this._updateLocalSupplies();
-            if(response.content.length === pagination_length) {
-              this.isLoadMoreAvailable.next(true);
-            } else {
-              this.isLoadMoreAvailable.next(false);
-            }
-            this.isLoading.next(false);
-          }
-        },
-        error => {
-          if(error.status === 404) {
-            this.isLoadMoreAvailable.next(false);
-            this.userSupplies.next(this._userSupplies);
-            this.isLoading.next(false);
-          }
+  async _getSBUIdOn(userId, page) {
+    try {
+      this.isLoading.next(true);
+      const params = new HttpParams()
+        .append('page', ''+page);
+
+      const response = <any> await this.http.get(server + '/abastecimentos/user/' + userId, { params }).toPromise();
+
+      try {
+        if(page === 0) {
+          await this._clearUserSupplies();
         }
-      )
+        await this.table.bulkAdd(response.content);
+      } catch(e) {}
+      finally {
+        this._updateLocalSupplies();
+        if(response.content.length === pagination_length) {
+          this.isLoadMoreAvailable.next(true);
+        } else {
+          this.isLoadMoreAvailable.next(false);
+        }
+        this.isLoading.next(false);
+      }
+    } catch(e) {
+      // if(e.status === 404) {
+      // }
+      this.userSupplies.next(this._userSupplies);
+      this.isLoadMoreAvailable.next(false);
+      this.isLoading.next(false);
+    }
   }
 }

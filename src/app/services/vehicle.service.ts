@@ -14,7 +14,6 @@ export class VehicleService {
 
   vehicles = new BehaviorSubject<Vehicle[]>([]);
   currentVehicle = new BehaviorSubject<Vehicle>(undefined);
-  currentVehicleCheck: boolean;
   isLoading = new BehaviorSubject<boolean>(false);
   isOnline: boolean;
   db: Dexie
@@ -24,6 +23,7 @@ export class VehicleService {
     private offlineService: OfflineService
   ) {
     this.dbInit();
+    this._updateLocalVehicles();
     this.offlineService.isOnline().subscribe(online => {
       this.isOnline = online;
       this.updateAllAPIWithLocalData();
@@ -48,16 +48,11 @@ export class VehicleService {
   }
 
   isCurrentVehicleAvailable() {
-    return this.currentVehicleCheck;
+    return !!this.currentVehicle.value;
   }
 
   setCurrentVehicle(vehicle) {
-    this.currentVehicleCheck = true
     this.currentVehicle.next(vehicle);
-  }
-
-  clearCurrentVehicle() {
-    this.currentVehicleCheck = false;
   }
 
   getIsLoading() {
@@ -76,22 +71,24 @@ export class VehicleService {
       this._updateLocalVehicles();
     }
   }
+
   //getVehicleByUserIdOnline
-  _getVBUIdOn(userId) {
-    this.isLoading.next(true);
-    this.http
-      .get(environment.server + '/veiculos/user/' + userId)
-      .subscribe(
-        async (response: Vehicle[]) => {
-          this.vehicles.next(response);
-          this.isLoading.next(false);
-          await this.db.table('vehicle').clear();
-          await this.db.table('vehicle').bulkAdd(response);
-        },
-        () => {
-          this.isLoading.next(false);
-        }
-      );
+  async _getVBUIdOn(userId) {
+    try {
+      this.isLoading.next(true);
+      const response = <Vehicle[]> await this.http
+        .get(environment.server + '/veiculos/user/' + userId)
+        .toPromise();
+      try {
+        await this.db.table('vehicle').clear();
+        await this.db.table('vehicle').bulkAdd(response);
+      } catch(e) {}
+      finally {
+        await this._updateLocalVehicles();
+      }
+    } finally {
+      this.isLoading.next(false);
+    }
   }
   //Unused!!!!
   getVehicleById(vehicleId) {
@@ -114,13 +111,21 @@ export class VehicleService {
       if (this.isOnline) {
         await this.deleteVehicleAPI(vehicleId);
       } else {
-        await this.db.table('removeVehicle').add({id: vehicleId});
-        await this.db.table('vehicle').delete(vehicleId);
-        await this._updateLocalVehicles();
+        this.saveDeleteVehicle(vehicleId);
       }
     } catch (e) {
+      this.saveDeleteVehicle(vehicleId);
       throw e;
     }
+  }
+
+  async saveDeleteVehicle(vehicleId) {
+    await this.db.table('removeVehicle').add({id: vehicleId});
+    await this.db.table('vehicle').delete(vehicleId);
+    try {
+      await this.db.table('addVehicle').delete(vehicleId);
+    } catch(e) {}
+    await this._updateLocalVehicles();
   }
 
   async deleteVehicleAPI(vehicleId) {
@@ -132,15 +137,19 @@ export class VehicleService {
       if (this.isOnline) {
         await this.createNewVehicleAPI(vehicle);
       } else {
-        vehicle.id = (Math.random()*100000000000000).toFixed(0);
-        console.log(vehicle);
-        await this.db.table('addVehicle').add(vehicle);
-        await this.db.table('vehicle').add(vehicle);
-        await this._updateLocalVehicles();
+        this.saveCreateVehicle(vehicle);
       }
     } catch (e) {
+      this.saveCreateVehicle(vehicle);
       throw e;
     }
+  }
+
+  async saveCreateVehicle(vehicle) {
+    vehicle.id = (Math.random()*100000000000000).toFixed(0);
+    await this.db.table('addVehicle').add(vehicle);
+    await this.db.table('vehicle').add(vehicle);
+    await this._updateLocalVehicles();
   }
 
   async createNewVehicleAPI(vehicle) {
@@ -149,9 +158,9 @@ export class VehicleService {
 
   //---------routine----------
   async updateRemoveVehicleWithLocalData() {
+
     const vehiclesToDelete = await this.db.table('removeVehicle').toArray();
     for(let {id} of vehiclesToDelete) {
-      console.log(id);
       try {
         await this.deleteVehicleAPI(id);
         await this.db.table('removeVehicle').delete(id);
@@ -184,6 +193,6 @@ export class VehicleService {
 
   async updateAllAPIWithLocalData() {
     await Promise.all([this.updateAddVehicleWithLocalData(), this.updateRemoveVehicleWithLocalData()]);
-    this._getVBUIdOn(2);
+    this.getVehicleByUserId(2);
   }
 }

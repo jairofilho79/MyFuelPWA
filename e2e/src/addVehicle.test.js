@@ -1,6 +1,4 @@
-const server = `http://localhost:4200`;
-
-const { getLicencePlate, verifyToastMessage, submitButton } = require('./utils');
+const {server,  getLicencePlate, verifyToastMessage, submitButton } = require('./utils');
 
 jest.setTimeout(5000);
 

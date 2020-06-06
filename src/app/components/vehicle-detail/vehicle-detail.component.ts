@@ -39,18 +39,16 @@ export class VehicleDetailComponent implements OnInit {
     this.$isLoading = this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
     this.$getVehicleSupplies = this.supplyService.getVehicleSupplies().subscribe(supplies => {
       this.supplies = supplies;
+      console.log({supplies});
       this.treatedSupplies = this.treatSuppliesData(supplies);
       this.suppliesUpdate.next(this.treatedSupplies);
     })
     this.$isLoadMoreAvailable = this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
-    this.$getCurrentVehicle = this.vehicleService.getCurrentVehicle().subscribe(vehicle => {
-      this.vehicle = vehicle
-      this.supplyService.getSuppliesByVehicleId(this.vehicle.id);
-    });
+    this.$getCurrentVehicle = this.vehicleService.getCurrentVehicle().subscribe(vehicle => this.vehicle = vehicle);
+    this.supplyService.getSuppliesByVehicleId();
   }
 
   ngOnDestroy() {
-    this.supplyService.clearVehicleSupplies();
     this.$isLoading.unsubscribe();
     this.$getVehicleSupplies.unsubscribe();
     this.$isLoadMoreAvailable.unsubscribe();
@@ -72,32 +70,27 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   addNewSupply() {
-    this.supplyService.clearVehicleSupplies();
     this.router.navigate(['addSupply'])
   }
 
-  removeSupply(index) {
-    this.supplyService
-      .deleteSupply(this.supplies[index].id)
-      .subscribe(
-        () => {
-          this.toastr
-            .success('Abastecimento removido com sucesso', 'Sucesso')
-            .onHidden
-            .subscribe(() => {
-              this.supplyService.clearVehicleSupplies();
-              this.supplyService.getSuppliesByVehicleId(this.vehicle.id);
-              this.router.navigate(['vehicleDetail']);
-            })
-        },
-        err => {
-          this.errorHandler.showErrors(err);
-        }
-      )
+  async removeSupply(index) {
+    try {
+      await this.supplyService
+        .deleteSupply(this.supplies[index].id)
+      this.toastr
+      .success('Abastecimento removido com sucesso', 'Sucesso')
+      .onHidden
+      .subscribe(() => {
+        this.supplyService.getSuppliesByVehicleId();
+        this.router.navigate(['vehicleDetail']);
+      })
+    } catch(e) {
+      this.errorHandler.showErrors(e);
+    }
   }
 
   loadMoreSupplies() {
-    this.supplyService.getSuppliesByVehicleId(this.vehicle.id, ++this.currentPage);
+    this.supplyService.getSuppliesByVehicleId(++this.currentPage);
   }
 
 }

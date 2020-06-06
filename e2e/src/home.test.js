@@ -1,13 +1,11 @@
-const server = `http://localhost:4200`;
-
-const { getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
+const { server, getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
 
 const paginatorSelector = '.mat-paginator-range-label';
 const loadMoreButton = '#loadMoreSupplies';
 const matSelect = '.mat-select'
 const vehicleTab = '#mat-tab-label-0-0'
 const gasStationTab = '#mat-tab-label-0-1'
-const supplyList = "mf-general-list[ng-reflect-list-name='supply']";
+const supplyList = "mf-general-list[listname='supply']";
 const addVehicleButton = ".mat-button";
 
 jest.setTimeout(10000);
