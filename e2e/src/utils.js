@@ -1,6 +1,7 @@
 
 module.exports.submitButton = "#submitButton";
-module.exports.vehicleList = "mf-general-list[ng-reflect-list-name='vehicle']";
+module.exports.vehicleList = "mf-general-list[listname='vehicle']";
+module.exports.server = "http://localhost:8080";
 module.exports.getText = async (page, selector) => {
   // return await page.$eval(selector, el => el !== null);
   return await page.$eval(selector, el => {

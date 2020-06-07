@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import brlFormatter from 'src/app/helper/currencyBRLFormatter';
-import { SupplyService } from "src/app/services/supply.service";
 import { VehicleService } from "src/app/services/vehicle.service";
 import { ToastrService } from "ngx-toastr";
 import { BehaviorSubject } from "rxjs";
@@ -8,6 +7,8 @@ import { Supply } from "src/app/models/Supply";
 import { Vehicle } from "src/app/models/Vehicle";
 import { Router } from "@angular/router";
 import { ErrorHandlerService } from "src/app/services/error-handler.service";
+import { VehicleSupplyService } from "src/app/services/vehicle-supply.service";
+import { UserSupplyService } from "src/app/services/user-supply.service";
 @Component({
   selector: 'mf-vehicle-detail',
   templateUrl: './vehicle-detail.component.html',
@@ -22,8 +23,14 @@ export class VehicleDetailComponent implements OnInit {
   vehicle: Vehicle;
   supplies: Supply[]
 
+  $isLoading;
+  $getVehicleSupplies
+  $isLoadMoreAvailable
+  $getCurrentVehicle
+
   constructor(
-    private supplyService: SupplyService,
+    private userSupplyService: UserSupplyService,
+    private supplyService: VehicleSupplyService,
     private vehicleService: VehicleService,
     private router: Router,
     private toastr: ToastrService,
@@ -32,14 +39,22 @@ export class VehicleDetailComponent implements OnInit {
 
   ngOnInit() {
     this.currentPage = 0;
-    this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
-    this.supplyService.getVehicleSupplies().subscribe(supplies => {
+    this.$isLoading = this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
+    this.$getVehicleSupplies = this.supplyService.getVehicleSupplies().subscribe(supplies => {
       this.supplies = supplies;
       this.treatedSupplies = this.treatSuppliesData(supplies);
       this.suppliesUpdate.next(this.treatedSupplies);
     })
-    this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
-    this.vehicleService.getCurrentVehicle().subscribe(vehicle => this.vehicle = vehicle);
+    this.$isLoadMoreAvailable = this.supplyService.$isLoadMoreAvailable().subscribe(verification => this.isLoadMoreSuppliesAvailable = verification);
+    this.$getCurrentVehicle = this.vehicleService.getCurrentVehicle().subscribe(vehicle => this.vehicle = vehicle);
+    this.supplyService.getSuppliesByVehicleId();
+  }
+
+  ngOnDestroy() {
+    this.$isLoading.unsubscribe();
+    this.$getVehicleSupplies.unsubscribe();
+    this.$isLoadMoreAvailable.unsubscribe();
+    this.$getCurrentVehicle.unsubscribe();
   }
 
   treatSuppliesData(supplies) {
@@ -57,32 +72,28 @@ export class VehicleDetailComponent implements OnInit {
   }
 
   addNewSupply() {
-    this.supplyService.clearVehicleSupplies();
     this.router.navigate(['addSupply'])
   }
 
-  removeSupply(index) {
-    this.supplyService
-      .deleteSupply(this.supplies[index].id)
-      .subscribe(
-        () => {
-          this.toastr
-            .success('Abastecimento removido com sucesso', 'Sucesso')
-            .onHidden
-            .subscribe(() => {
-              this.supplyService.clearVehicleSupplies();
-              this.supplyService.getSuppliesByVehicleId(this.vehicle.id);
-              this.router.navigate(['vehicleDetail']);
-            })
-        },
-        err => {
-          this.errorHandler.showErrors(err);
-        }
-      )
+  async removeSupply(index) {
+    try {
+      await this.supplyService
+        .deleteSupply(this.supplies[index].id)
+      this.toastr
+      .success('Abastecimento removido com sucesso', 'Sucesso')
+      .onHidden
+      .subscribe(() => {
+        this.supplyService.getSuppliesByVehicleId();
+        this.router.navigate(['vehicleDetail']);
+      })
+      this.userSupplyService._getMonthTotal();
+    } catch(e) {
+      this.errorHandler.showErrors(e);
+    }
   }
 
   loadMoreSupplies() {
-    this.supplyService.getSuppliesByVehicleId(this.vehicle.id, ++this.currentPage);
+    this.supplyService.getSuppliesByVehicleId(++this.currentPage);
   }
 
 }

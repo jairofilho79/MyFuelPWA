@@ -6,7 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 
-import { MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatTabsModule, MatTableModule, MatPaginatorModule, MatDialogModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatPaginatorIntl, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatTabsModule, MatTableModule, MatPaginatorModule, MatDialogModule } from '@angular/material';
+import {TextFieldModule} from '@angular/cdk/text-field';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,7 @@ import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.compon
 import { VehicleDetailComponent } from './components/vehicle-detail/vehicle-detail.component';
 import { AddSupplyComponent } from './components/add-supply/add-supply.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { getBrazilianPaginatorIntl } from './paginators/brazilian-paginator-intl';
 
 @NgModule({
   declarations: [
@@ -59,15 +61,18 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    TextFieldModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot({
-      timeOut: 300000,
+      timeOut: 3000,
       positionClass: 'toast-top-right',
       preventDuplicates: false,
     })
   ],
-  providers: [],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: getBrazilianPaginatorIntl() }
+  ],
   bootstrap: [AppComponent, DialogComponent]
 })
 export class AppModule { }

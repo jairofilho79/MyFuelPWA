@@ -1,8 +1,6 @@
-const server = `http://localhost:4200`;
+const { server, clickElementByTextInside, vehicleList } = require('./utils');
 
-const { getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
-
-const supplyList = "mf-general-list[ng-reflect-list-name='vehicleSupply']"
+const supplyList = "mf-general-list[listname='vehicleSupply']"
 
 jest.setTimeout(5000);
 
@@ -32,6 +30,6 @@ describe('Main flow', () => {
     await page.waitForSelector('#license-plate', {visible: true});
     await page.waitForSelector('#km', {visible: true});
     await page.waitForSelector('#tank', {visible: true});
-    await page.waitForSelector('#color', {visible: true});
+    // await page.waitForSelector('#color', {visible: true});
   });
 });

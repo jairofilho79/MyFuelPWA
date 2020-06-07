@@ -1,7 +1,4 @@
-// const server = `http://localhost:${process.env.ENV === 'prod' ? '8080' : '4200'}`;
-const server = `http://localhost:4200`;
-
-const { getText, getUniqueString, clearForm, verifyToastMessage, submitButton } = require('./utils');
+const { server, getText, getUniqueString, clearForm, verifyToastMessage, submitButton } = require('./utils');
 
 jest.setTimeout(20000);
 

@@ -5,16 +5,11 @@
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build",
-    "test": "\"cd e2e/src/ && cross-env ENV=prod jest\"",
-    "test:hlf": "\"cd e2e/src/ && cross-env HEADLESS=false ENV=prod jest\"",
-    "jest": "\"cd e2e/src/ && jest\"",
-    "jest:hlf": "\"cd e2e/src/ && cross-env HEADLESS=false jest\"",
-    "lint": "ng lint",
-    "serve": "concurrently \"ng serve\" \"npm run server\"",
-    "server": "concurrently \"json-server -w src/mockserver/db.json\" \"nodemon ./src/mockserver/index.js\"",
+    "jest": "cd e2e/src/ && jest $npm_config_file",
+    "jest:hlf": "cd e2e/src/ && cross-env HEADLESS=false jest $npm_config_file",
     "postinstall": "ng build --aot --prod",
-    "serverProd": "npm run postinstall && npm start",
-    "prePR": "npm run postinstall && concurrently \"npm start\" \"npm run test\""
+    "buildStaging": "nodemon --watch src --exec \"ng build --prod --watch=true --build-optimizer=false\"",
+    "serverStaging": "nodemon --watch dist --exec \"npm start\""
   },
   "private": true,
   "dependencies": {
@@ -31,6 +26,7 @@
     "@angular/router": "~8.2.14",
     "@angular/service-worker": "~8.2.14",
     "cors": "^2.8.5",
+    "dexie": "^3.0.1",
     "express": "^4.17.1",
     "ngx-toastr": "^11.3.3",
     "rxjs": "~6.4.0",
@@ -69,5 +65,6 @@
   "engines": {
     "node": "12.13.0",
     "npm": "6.9.0"
-  }
+  },
+  "serviceWorker": true
 }

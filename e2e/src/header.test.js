@@ -1,6 +1,4 @@
-const server = `http://localhost:4200`;
-
-const { getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
+const { server, clickElementByTextInside, vehicleList } = require('./utils');
 
 jest.setTimeout(10000);
 
@@ -14,7 +12,7 @@ describe('Main flow', () => {
     // escape dialog
   })
 
-  it('Should display the username', async () => {
+  it.skip('Should display the username', async () => {
     await page.waitForSelector('#username');
   })
 

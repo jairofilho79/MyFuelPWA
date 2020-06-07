@@ -7,7 +7,7 @@
     <mat-tab class="homeTab">
 
       <ng-template mat-tab-label>
-        <mat-icon >directions_car</mat-icon>
+        <mat-icon class="icon">directions_car</mat-icon>
       </ng-template>
 
       <div class="spinner">
@@ -23,12 +23,13 @@
           [data]="treatedVehicles"
           listName='vehicle'
           [displayedColumns]="['column1', 'column2', 'remove']"
+          [onDataChange]="vehiclesUpdate.asObservable()"
           (onRemoveEvent)="removeVehicle($event)"
           (onClickEvent)="getVehicleDetail($event)"
         ></mf-general-list>
         <div class="buttonsContainer">
           <button
-            class="homeButton"
+            class="buttonDefault homeButton"
             mat-button
             (click)="addNewVehicle()"
           >
@@ -42,7 +43,7 @@
     <mat-tab class="homeTab">
 
       <ng-template mat-tab-label>
-        <mat-icon >local_gas_station</mat-icon>
+        <mat-icon class="icon">local_gas_station</mat-icon>
       </ng-template>
       <!-- TODO: make a component of this -->
       <div class="spinner">
@@ -63,7 +64,7 @@
 
         <button
             mat-button
-            class="homeButton"
+            class="buttonDefault homeButton"
             (click)="loadMoreSupplies()"
             *ngIf="isLoadMoreSuppliesAvailable"
             id="loadMoreSupplies"

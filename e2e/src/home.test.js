@@ -1,13 +1,11 @@
-const server = `http://localhost:4200`;
-
-const { getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
+const { server, getTexts, getText, clickElementByTextInside, vehicleList } = require('./utils');
 
 const paginatorSelector = '.mat-paginator-range-label';
 const loadMoreButton = '#loadMoreSupplies';
 const matSelect = '.mat-select'
 const vehicleTab = '#mat-tab-label-0-0'
 const gasStationTab = '#mat-tab-label-0-1'
-const supplyList = "mf-general-list[ng-reflect-list-name='supply']";
+const supplyList = "mf-general-list[listname='supply']";
 const addVehicleButton = ".mat-button";
 
 jest.setTimeout(10000);
@@ -49,7 +47,7 @@ describe('Main flow', () => {
   it('Should verify if paginator is displayed', async () => {
     await page.waitFor(1000);
     const paginator = await getText(page, paginatorSelector);
-    expect(paginator).toMatch("1 – 5 of 20")
+    expect(paginator).toMatch("20")
   });
 
   it('Should load more supplies', async () => {
@@ -57,7 +55,7 @@ describe('Main flow', () => {
     await page.click(loadMoreButton);
     await page.waitFor(1000);
     const paginator = await getText(page, paginatorSelector);
-    expect(paginator).toMatch("1 – 5 of 40")
+    expect(paginator).toMatch("40")
   });
 
   it('Should load more button desappier when it have no more supplies', async () => {
@@ -81,7 +79,6 @@ describe('Main flow', () => {
     await page.click(addVehicleButton);
     await page.waitForSelector('.title', { visible: true });
     const url = page.url();
-    console.log(url);
     expect(url).toContain('addVehicle');
   })
 });
