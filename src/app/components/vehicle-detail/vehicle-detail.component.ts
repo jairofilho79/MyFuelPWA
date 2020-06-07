@@ -8,6 +8,7 @@ import { Vehicle } from "src/app/models/Vehicle";
 import { Router } from "@angular/router";
 import { ErrorHandlerService } from "src/app/services/error-handler.service";
 import { VehicleSupplyService } from "src/app/services/vehicle-supply.service";
+import { UserSupplyService } from "src/app/services/user-supply.service";
 @Component({
   selector: 'mf-vehicle-detail',
   templateUrl: './vehicle-detail.component.html',
@@ -21,12 +22,14 @@ export class VehicleDetailComponent implements OnInit {
   currentPage: number = 0;
   vehicle: Vehicle;
   supplies: Supply[]
+
   $isLoading;
   $getVehicleSupplies
   $isLoadMoreAvailable
   $getCurrentVehicle
 
   constructor(
+    private userSupplyService: UserSupplyService,
     private supplyService: VehicleSupplyService,
     private vehicleService: VehicleService,
     private router: Router,
@@ -39,7 +42,6 @@ export class VehicleDetailComponent implements OnInit {
     this.$isLoading = this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
     this.$getVehicleSupplies = this.supplyService.getVehicleSupplies().subscribe(supplies => {
       this.supplies = supplies;
-      console.log({supplies});
       this.treatedSupplies = this.treatSuppliesData(supplies);
       this.suppliesUpdate.next(this.treatedSupplies);
     })
@@ -84,6 +86,7 @@ export class VehicleDetailComponent implements OnInit {
         this.supplyService.getSuppliesByVehicleId();
         this.router.navigate(['vehicleDetail']);
       })
+      this.userSupplyService._getMonthTotal();
     } catch(e) {
       this.errorHandler.showErrors(e);
     }

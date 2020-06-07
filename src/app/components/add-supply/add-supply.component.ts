@@ -7,6 +7,7 @@ import { ErrorHandlerService } from "src/app/services/error-handler.service";
 import { Supply } from "src/app/models/Supply";
 import { Vehicle } from "src/app/models/Vehicle";
 import { VehicleSupplyService } from "src/app/services/vehicle-supply.service";
+import { UserSupplyService } from "src/app/services/user-supply.service";
 
 @Component({
   selector: 'mf-add-supply',
@@ -26,6 +27,7 @@ export class AddSupplyComponent implements OnInit {
     private toastr: ToastrService,
     private vehicleService: VehicleService,
     private supplyService: VehicleSupplyService,
+    private userSupplyService: UserSupplyService,
     private router: Router,
     private errorHandler: ErrorHandlerService,
   ) { }
@@ -61,6 +63,8 @@ export class AddSupplyComponent implements OnInit {
         .subscribe(() => {
           this.router.navigate(['vehicleDetail']);
         })
+      this.userSupplyService._getMonthTotal();
+
     } catch(e) {
       this.errorHandler.showErrors(e);
     } finally {

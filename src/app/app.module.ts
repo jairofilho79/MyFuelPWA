@@ -7,6 +7,7 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 
 import { MatFormFieldModule, MatInputModule, MatPaginatorIntl, MatIconModule, MatButtonModule, MatProgressSpinnerModule, MatTabsModule, MatTableModule, MatPaginatorModule, MatDialogModule } from '@angular/material';
+import {TextFieldModule} from '@angular/cdk/text-field';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -60,6 +61,7 @@ import { getBrazilianPaginatorIntl } from './paginators/brazilian-paginator-intl
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
+    TextFieldModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot({

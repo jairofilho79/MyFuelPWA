@@ -176,7 +176,6 @@ export class VehicleService {
   async updateAddVehicleWithLocalData() {
     const vehiclesToCreate = await this.db.table('addVehicle').toArray();
     for(let vehicle of vehiclesToCreate) {
-      console.log(vehicle);
       let localVehicleId = vehicle.id;
       try {
         delete vehicle.id;

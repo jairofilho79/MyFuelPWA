@@ -79,7 +79,6 @@ describe('Main flow', () => {
     await page.click(addVehicleButton);
     await page.waitForSelector('.title', { visible: true });
     const url = page.url();
-    console.log(url);
     expect(url).toContain('addVehicle');
   })
 });

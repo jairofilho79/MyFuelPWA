@@ -1,25 +1,10 @@
 .vehicleDetailTab {
   height: 100%;
 }
-
-.spinner {
-  width: 100%;
-  margin-top: 5vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .suppliesButtonsContainer {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-}
-
-.vehicleDetailButton {
-  color: white;
-  background-color: #436399;
-  height: 40px;
 }
 
 .infoList {

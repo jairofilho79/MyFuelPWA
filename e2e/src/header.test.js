@@ -12,7 +12,7 @@ describe('Main flow', () => {
     // escape dialog
   })
 
-  it('Should display the username', async () => {
+  it.skip('Should display the username', async () => {
     await page.waitForSelector('#username');
   })
 

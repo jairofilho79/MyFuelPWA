@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.supplyService._getMonthTotal();
     this.$isOnline = this.offlineService.isOnline().subscribe(isOnline => this.isOnline = isOnline);
     this.$supplyServiceGetIsLoading = this.supplyService.getIsLoading().subscribe(isLoading => this.isLoadingSupplies = isLoading);
     this.$vehicleServiceGetIsLoading = this.vehicleService.getIsLoading().subscribe(isLoading => this.isLoadingVehicles = isLoading);

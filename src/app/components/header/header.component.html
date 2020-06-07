@@ -1,22 +1,32 @@
 <div class="headerContainer">
+  <!-- LEFT -->
   <div
-    class="pointer arrowBack"
+    class="pointer arrowBack icon"
     (click)="goBack()"
     *ngIf="!isHomePage"
   >
     <mat-icon [inline]="true">arrow_back</mat-icon>
   </div>
   <div
-    class="pointer logout"
+    class="pointer logout icon"
     (click)="confirmLogout()"
     *ngIf="isHomePage"
   >
     <mat-icon [inline]="true">power_settings_new</mat-icon>
   </div>
-  <div>
+  <!-- CENTER -->
+  <div *ngIf="isOnline">
     <h3 id="username">Olá, {{username}}</h3>
     <h3>{{currentMonth | monthName}}: {{currentMonthTotal}}</h3>
   </div>
+  <div
+    class="pointer cloud_off icon"
+    (click)="refreshTotalMonth()"
+    *ngIf="!isOnline"
+  >
+    <mat-icon [inline]="true">cloud_off</mat-icon>
+  </div>
+  <!-- RIGHT -->
   <div id="logo">LOGO</div>
 </div>
 

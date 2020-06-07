@@ -30,6 +30,6 @@ describe('Main flow', () => {
     await page.waitForSelector('#license-plate', {visible: true});
     await page.waitForSelector('#km', {visible: true});
     await page.waitForSelector('#tank', {visible: true});
-    await page.waitForSelector('#color', {visible: true});
+    // await page.waitForSelector('#color', {visible: true});
   });
 });

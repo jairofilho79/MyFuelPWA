@@ -7,7 +7,7 @@
     <mat-tab class="vehicleDetailTab">
 
       <ng-template mat-tab-label>
-        <mat-icon >local_gas_station</mat-icon>
+        <mat-icon class="icon">local_gas_station</mat-icon>
       </ng-template>
       <!-- TODO: make a component of this -->
       <div class="spinner">
@@ -30,7 +30,7 @@
         <div class="suppliesButtonsContainer">
           <button
             mat-button
-            class="vehicleDetailButton"
+            class="buttonDefault"
             style="width: 50%;"
             (click)="loadMoreSupplies()"
             *ngIf="isLoadMoreSuppliesAvailable"
@@ -40,7 +40,7 @@
           </button>
           <button
             mat-button
-            class="vehicleDetailButton"
+            class="buttonDefault"
             [style.width]="isLoadMoreSuppliesAvailable ? '50%' : '100%'"
             (click)="addNewSupply()"
           >
@@ -54,7 +54,7 @@
     <mat-tab class="vehicleDetailTab">
 
       <ng-template mat-tab-label>
-        <mat-icon >info</mat-icon>
+        <mat-icon class="icon">info</mat-icon>
       </ng-template>
 
       <div class="infoList">
@@ -62,10 +62,10 @@
         <div id="license-plate">Placa: {{vehicle.placa}}</div>
         <div id="km">Km: {{vehicle.km}}</div>
         <div id="tank">Capacidade do tanque: {{vehicle.capacidadeTanque}}</div>
-        <div class="vehicleColorContainer">
+        <!-- <div class="vehicleColorContainer">
           <div id="color">cor:</div>
           <div [style.background-color]="vehicle.cor" id="vehicleColor"></div>
-        </div>
+        </div> -->
       </div>
 
     </mat-tab>

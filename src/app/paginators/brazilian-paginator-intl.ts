@@ -1,7 +1,7 @@
 import { MatPaginatorIntl } from '@angular/material';
 
 const brazilianRangeLabel = (page: number, pageSize: number, length: number) => {
-  if (length == 0 || pageSize == 0) { return `0 van ${length}`; }
+  if (length == 0 || pageSize == 0) { return 'Nada'; }
 
   length = Math.max(length, 0);
 

@@ -18,6 +18,7 @@ export class UserSupplyService {
   userSupplies = new BehaviorSubject<Supply[]>([]);
   _userSupplies = [];
   isLoadMoreAvailable = new BehaviorSubject(true);
+  monthTotal = new BehaviorSubject(undefined);
   isLoading = new BehaviorSubject(false);
   isOnline: boolean;
   db: Dexie
@@ -29,16 +30,23 @@ export class UserSupplyService {
     private offlineService: OfflineService,
     private userService: UserService
   ) {
+    this.user = this.userService.getUser();
     this.dbInit();
     this._updateLocalSupplies();
+    this._getMonthTotal();
     this.offlineService.isOnline().subscribe(online => {
       this.isOnline = online;
       if(this.isOnline) {
-        this.getSuppliesByUserId(this.userService.getUser().id);
+        this.getSuppliesByUserId(this.user.id);
+        this._getMonthTotal();
       } else {
         this.isLoadMoreAvailable.next(false);
       }
     });
+  }
+
+  getMonthTotal() {
+    return this.monthTotal.asObservable();
   }
 
   dbInit() {
@@ -59,6 +67,17 @@ export class UserSupplyService {
 
   $isLoadMoreAvailable() {
     return this.isLoadMoreAvailable.asObservable();
+  }
+
+  async _getMonthTotal() {
+    try {
+      const response = <any> await this.http.get(server + '/abastecimentos/user/mesAtual/' + this.user.id).toPromise();
+      console.log('coisa', response);
+      this.monthTotal.next(response);
+    } catch(e) {
+      console.log('egua', e);
+      this.monthTotal.next(undefined);
+    }
   }
 
   async _clearUserSupplies() {
