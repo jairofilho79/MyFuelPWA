@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { RegisterUser } from "src/app/models/register-user.model";
-import { ToastrService } from "ngx-toastr";
-import { RegisterUserService } from "src/app/services/register-user.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
-import { ValidateConfirmPassword } from 'src/app/validators/confirm-password.validator'
+import { ToastrService } from "ngx-toastr";
+import { RegisterUser } from "src/app/models/register-user.model";
 import { ErrorHandlerService } from "src/app/services/error-handler.service";
+import { RegisterUserService } from "src/app/services/register-user.service";
+import { ValidateConfirmPassword } from 'src/app/validators/confirm-password.validator';
 
 @Component({
   selector: 'app-register-user',
@@ -37,9 +37,9 @@ export class RegisterUserComponent implements OnInit {
       password: ['', [Validators.required, Validators.maxLength(12), Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     },
-    {
-      validators: [ValidateConfirmPassword]
-    })
+      {
+        validators: [ValidateConfirmPassword]
+      })
   }
 
   register() {
@@ -63,5 +63,9 @@ export class RegisterUserComponent implements OnInit {
           this.errorHandler.showErrors(err);
         }
       )
+  }
+
+  voltar() {
+    this.router.navigate(['/login'])
   }
 }

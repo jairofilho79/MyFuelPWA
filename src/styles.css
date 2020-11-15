@@ -63,3 +63,16 @@ select:-webkit-autofill:focus {
 .ml-5 {
     margin-left: 5px;
 }
+
+.display-line {
+    display: inline !important;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.align-center {
+    text-align: center;
+}
