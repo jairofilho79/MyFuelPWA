@@ -1,1 +1,27 @@
-<p>login works!</p>
+<div class="container">
+    <mat-card>
+        <mat-icon>account_circle</mat-icon>
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>Faça o seu login</mat-card-subtitle>
+        <form [formGroup]="loginForm" class="form" (ngSubmit)="submit()">
+            <mat-card-content>
+                <mat-form-field class="full-width">
+                    <input formControlName="username" id="userName" matInput type="text" placeholder="Informe seu email seu email">
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <input formControlName="password" id="password" matInput type="password" placeholder="Informe seu email sua senha">
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+                <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Logar</button>
+            </mat-card-actions>
+        </form>
+        <mat-card-footer>
+            <div class="full-width ml-5">
+                Não possui login?
+                <a href="#" routerLink="/registerUser">click aqui</a>
+            </div>
+        </mat-card-footer>
+    </mat-card>
+</div>
