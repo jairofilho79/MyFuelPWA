@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from "@angular/router";
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,8 +26,15 @@ import { getBrazilianPaginatorIntl } from './paginators/brazilian-paginator-intl
 import { DarkOrLightFontColorPipe } from './pipes/dark-or-light-font-color.pipe';
 import { ListNameFormatPipe } from './pipes/list-name-format.pipe';
 import { MonthNamePipe } from './pipes/month-name.pipe';
+import { AuthService } from './services/auth.service';
 
-
+export function jwtOptionsFactory(authService) {
+  return {
+    tokenGetter: () => {
+      return authService.obterToken();
+    }
+  }
+}
 
 @NgModule({
   declarations: [
@@ -63,6 +71,13 @@ import { MonthNamePipe } from './pipes/month-name.pipe';
     MatDialogModule,
     MatCardModule,
     TextFieldModule,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [AuthService]
+      }
+    }),
     BrowserAnimationsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     ToastrModule.forRoot({
@@ -72,7 +87,8 @@ import { MonthNamePipe } from './pipes/month-name.pipe';
     })
   ],
   providers: [
-    { provide: MatPaginatorIntl, useValue: getBrazilianPaginatorIntl() }
+    { provide: MatPaginatorIntl, useValue: getBrazilianPaginatorIntl() },
+    AuthService
   ],
   bootstrap: [AppComponent, DialogComponent]
 })

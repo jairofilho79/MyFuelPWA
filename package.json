@@ -25,6 +25,7 @@
     "@angular/pwa": "^0.901.3",
     "@angular/router": "~8.2.14",
     "@angular/service-worker": "~8.2.14",
+    "@auth0/angular-jwt": "^5.0.1",
     "cors": "^2.8.5",
     "dexie": "^3.0.1",
     "express": "^4.17.1",
